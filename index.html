@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grade 4’s Unit Article Hub</title>
+<style>
+/* ===== COLORS AND FONTS: change these and the whole site changes ===== */
+:root{
+  --bg-1:#6fb1e8; --bg-2:#2f78c4;
+  --blue-1:#9fd0ff; --blue-2:#3d8fe0; --blue-3:#1f6fc9; --blue-edge:#1b5aa5;
+  --window:#ffffff; --bar-1:#f4f4f4; --bar-2:#cfcfcf; --text:#1d2733; --text-soft:#5b6877;
+  --font:"Lucida Grande","Trebuchet MS","Segoe UI",Verdana,sans-serif;
+  --radius:16px;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:var(--font);color:var(--text);overflow:hidden;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 2px,transparent 2px 6px),linear-gradient(160deg,var(--bg-1),var(--bg-2))}
+:focus-visible{outline:3px solid #ffd54a;outline-offset:2px}
+body.dragging iframe{pointer-events:none}
+body.dragging{user-select:none}
+
+#menu{position:fixed;top:0;left:0;right:0;height:34px;display:flex;align-items:center;gap:8px;padding:0 12px;z-index:9999;
+  background:linear-gradient(#fdfdfd,#d9d9d9);border-bottom:1px solid #8d8d8d;box-shadow:0 2px 8px rgba(0,0,0,.25);font-size:15px}
+#menu b{font-size:16px;margin-right:8px}
+#menu .clock{margin-left:auto;color:var(--text-soft)}
+.menu-btn{all:unset;cursor:pointer;padding:4px 12px;border-radius:999px;font-size:14px}
+.menu-btn:hover,.menu-btn:focus-visible{background:linear-gradient(var(--blue-1),var(--blue-3));color:#fff}
+
+#desk{position:absolute;inset:34px 0 0 0;padding:24px;display:grid;grid-template-columns:repeat(auto-fill,110px);
+  grid-auto-rows:124px;gap:14px;align-content:start;justify-content:start}
+.icon{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:6px;border-radius:12px;text-align:center;font-size:14px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.icon .img{width:68px;height:68px;border-radius:18px;display:grid;place-items:center;font-size:36px;
+  background:linear-gradient(var(--blue-1),var(--blue-2) 50%,var(--blue-3) 51%,var(--blue-2));
+  border:1px solid var(--blue-edge);box-shadow:inset 0 2px 0 rgba(255,255,255,.7),0 4px 10px rgba(0,0,0,.35);transition:transform .15s}
+.icon:hover .img,.icon:focus-visible .img{transform:scale(1.08)}
+.icon:active .img{transform:scale(.96)}
+.icon.small{color:var(--text);text-shadow:none}
+.icon.small .img{width:56px;height:56px;font-size:28px;border-radius:15px}
+
+.corner{position:absolute;bottom:14px;width:104px}
+.corner.left{left:24px}.corner.right{right:24px}
+pre.ascii{margin:0;font:13px/1.15 ui-monospace,Menlo,Consolas,"Courier New",monospace;overflow-x:auto}
+.line{white-space:pre-line}
+.big{font-size:20px !important;text-align:center;padding:14px 0}
+.win{position:absolute;display:flex;flex-direction:column;background:var(--window);border-radius:var(--radius);
+  border:1px solid #6d7b8a;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.5) inset;animation:open .18s ease-out}
+@keyframes open{from{transform:scale(.94);opacity:0}to{transform:none;opacity:1}}
+.win.back{filter:saturate(.8) brightness(.97)}
+.win.full{inset:0 !important;width:auto !important;height:auto !important;border-radius:0}
+.bar{display:flex;align-items:center;gap:8px;padding:9px 12px;cursor:grab;touch-action:none;user-select:none;flex:none;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.6) 0 1px,transparent 1px 3px),linear-gradient(var(--bar-1),var(--bar-2));
+  border-bottom:1px solid #8f8f8f}
+.bar:active{cursor:grabbing}
+.bar h2{flex:1;margin:0;text-align:center;font-size:15px;font-weight:600;padding-right:56px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dots{display:flex;gap:7px}
+.dot{all:unset;width:16px;height:16px;border-radius:50%;cursor:pointer;box-shadow:inset 0 -2px 3px rgba(0,0,0,.3),inset 0 2px 2px rgba(255,255,255,.8),0 0 0 1px rgba(0,0,0,.35)}
+.dot.x{background:radial-gradient(circle at 50% 30%,#ff9a8f,#e5392b)}
+.dot.m{background:radial-gradient(circle at 50% 30%,#ffe69a,#eba91a)}
+.dot.z{background:radial-gradient(circle at 50% 30%,#b6f0a0,#3fb62c)}
+.dot:hover{filter:brightness(1.15)}
+.body{padding:18px;overflow:auto;display:flex;flex-direction:column;gap:12px;flex:1;min-height:0}
+.body p{margin:0;line-height:1.5;font-size:16px}
+.soft{color:var(--text-soft)}
+.files{display:grid;grid-template-columns:repeat(auto-fill,100px);gap:10px}
+.grip{position:absolute;right:0;bottom:0;width:26px;height:26px;cursor:nwse-resize;touch-action:none;z-index:3;
+  background:linear-gradient(135deg,transparent 50%,rgba(0,0,0,.28) 50% 56%,transparent 56% 66%,rgba(0,0,0,.28) 66% 72%,transparent 72%)}
+
+/* viewer window */
+.viewer .body{padding:0;gap:0}
+.tools{display:flex;gap:8px;align-items:center;padding:8px 10px;background:linear-gradient(#f7f9fb,#e3e9ef);border-bottom:1px solid #b5c0cc;flex:none}
+.tools .addr{flex:1;min-width:0;padding:6px 12px;border-radius:999px;border:1px solid #9aa5b1;background:#fff;font-size:13px;color:var(--text-soft);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;box-shadow:inset 0 1px 3px rgba(0,0,0,.15)}
+.btn{all:unset;box-sizing:border-box;cursor:pointer;padding:7px 14px;border-radius:999px;font-size:14px;font-weight:600;white-space:nowrap;
+  color:#fff;text-shadow:0 -1px 0 rgba(0,0,0,.35);border:1px solid var(--blue-edge);
+  background:linear-gradient(var(--blue-1),var(--blue-2) 50%,var(--blue-3) 51%,var(--blue-2));
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.65),0 2px 5px rgba(0,0,0,.25);transition:transform .1s,filter .1s}
+.btn:hover{filter:brightness(1.08)} .btn:active{transform:translateY(1px)}
+.btn.light{color:var(--text);text-shadow:none;border-color:#9aa5b1;background:linear-gradient(#fff,#e6ebf0 50%,#d5dce4 51%,#e9eef3)}
+iframe{flex:1;width:100%;min-height:0;border:0;background:#fff}
+.hint{flex:none;padding:6px 12px;font-size:12.5px;color:var(--text-soft);background:#f3f6f9;border-top:1px solid #d3dbe3}
+.holder{margin:auto;max-width:340px;text-align:center;padding:24px;color:var(--text-soft);line-height:1.5}
+
+#dock{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);display:flex;gap:10px;padding:10px 16px;max-width:94vw;overflow-x:auto;z-index:9998;
+  border-radius:22px;border:1px solid rgba(255,255,255,.7);background:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.25));
+  box-shadow:0 8px 24px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.9);backdrop-filter:blur(8px)}
+#dock:empty{display:none}
+@media (max-width:600px){#desk{padding:14px;grid-template-columns:repeat(auto-fill,96px)} .menu-btn.hide-s{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+</style>
+</head>
+<body>
+
+<div id="menu">
+  <b id="site-name"></b>
+  <button class="menu-btn" id="tile">Tile windows</button>
+  <button class="menu-btn hide-s" id="closeall">Close all</button>
+  <span class="clock" id="clock"></span>
+</div>
+<main id="desk" aria-label="Desktop"></main>
+<nav id="dock" aria-label="Minimized windows"></nav>
+
+<script>
+/* ==========================================================
+   YOUR CONTENT: edit only this part.
+   - Up to 10 folders (extra ones are ignored).
+   - Each file is: ["File name", "link or html file"]
+       online page:   "https://example.com/article"
+       your own file: "pages/lesson1.html"  (upload it next to index.html)
+       empty:         ""  (shows a placeholder until you add a link)
+   - Some websites refuse to be shown inside another page. When that happens,
+     the "Open in new tab" button in the window always works.
+   ========================================================== */
+const SITE = {
+  name: "Grade 4’s Unit Article Hub",
+  welcome: "Open a folder, then open a file. You can drag windows, resize them from the corner, and place them side by side.",
+  jail: "Unfortunately no squishies, bruh.",
+  folders: [
+    { name: "Folder 1",  icon: "📁", files: [["File 1", ""], ["File 2", ""]] },
+    { name: "Folder 2",  icon: "📁", files: [["File 1", ""], ["File 2", ""]] },
+    { name: "Folder 3",  icon: "📁", files: [["File 1", ""], ["File 2", ""]] },
+    { name: "Folder 4",  icon: "📁", files: [["File 1", ""], ["File 2", ""]] },
+    { name: "Folder 5",  icon: "📁", files: [["File 1", ""], ["File 2", ""]] },
+    { name: "Folder 6",  icon: "📁", files: [["File 1", ""], ["File 2", ""]] },
+    { name: "Folder 7",  icon: "📁", files: [["File 1", ""], ["File 2", ""]] },
+    { name: "Folder 8",  icon: "📁", files: [["File 1", ""], ["File 2", ""]] },
+    { name: "Folder 9",  icon: "📁", files: [["File 1", ""], ["File 2", ""]] },
+    { name: "Folder 10", icon: "📁", files: [["File 1", ""], ["File 2", ""]] }
+  ]
+};
+
+const CREDITS_ART = [" __  __           _", "|  \\/  | _ __    | |     _   _   ___   __ _  ___", "| |\\/| || '__|   | |    | | | | / __| / _` |/ __|", "| |  | || |    _ | |___ | |_| || (__ | (_| |\\__ \\", "|_|  |_||_|   (_)|_____| \\__,_| \\___| \\__,_||___/"];
+const CREDITS_TEXT = [
+  "I once was a kid just like you, curious and loud. Be loud with your creativity, ALWAYS.",
+  "Du Bist Gut Genug",
+  "Bruh",
+  ";3"
+];
+
+/* ===== From here on is how the site works ===== */
+const $ = s => document.querySelector(s);
+function h(tag, attrs = {}, ...kids){
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)){
+    if (k === "class") el.className = v;
+    else if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v);
+  }
+  kids.flat().forEach(c => el.append(c));
+  return el;
+}
+document.title = SITE.name;
+$("#site-name").textContent = SITE.name;
+const tick = () => $("#clock").textContent = new Date().toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"});
+tick(); setInterval(tick, 30000);
+
+let z = 10, nudge = 0;
+const open = {};
+const desk = $("#desk");
+
+function focusWin(w){
+  document.querySelectorAll(".win").forEach(x => x.classList.add("back"));
+  w.classList.remove("back"); w.style.zIndex = ++z;
+}
+
+function makeWindow(id, title, content, opts = {}){
+  if (open[id]){ open[id].hidden = false; refreshDock(); focusWin(open[id]); return open[id]; }
+  const w = h("section", {class:"win" + (opts.viewer ? " viewer" : ""), role:"dialog", "aria-label":title});
+  const close = h("button", {class:"dot x", "aria-label":"Close", onclick:() => { w.remove(); delete open[id]; refreshDock(); }});
+  const mini  = h("button", {class:"dot m", "aria-label":"Minimize", onclick:() => { w.hidden = true; refreshDock(); }});
+  const zoom  = h("button", {class:"dot z", "aria-label":"Maximize or restore", onclick:() => w.classList.toggle("full")});
+  const bar = h("div", {class:"bar"}, h("div", {class:"dots"}, close, mini, zoom), h("h2", {}, title));
+  const grip = h("div", {class:"grip", "aria-hidden":"true"});
+  w.append(bar, h("div", {class:"body"}, content), grip);
+
+  const dw = desk.clientWidth, dh = desk.clientHeight, n = (nudge++ % 6) * 28;
+  const width = Math.min(opts.w || 460, dw - 16);
+  w.style.width = width + "px";
+  if (opts.h) w.style.height = Math.min(opts.h, dh - 16) + "px"; else w.style.maxHeight = (dh - 16) + "px";
+  w.style.left = Math.max(8, Math.min(130 + n, dw - width - 8)) + "px";
+  w.style.top = (14 + n) + "px";
+  w.dataset.kind = opts.viewer ? "viewer" : "folder";
+  desk.append(w); open[id] = w; focusWin(w);
+  w.addEventListener("pointerdown", () => focusWin(w));
+
+  let drag = null;
+  bar.addEventListener("pointerdown", e => {
+    if (e.target.closest(".dot") || w.classList.contains("full")) return;
+    drag = {x:e.clientX - w.offsetLeft, y:e.clientY - w.offsetTop};
+    bar.setPointerCapture(e.pointerId); document.body.classList.add("dragging");
+  });
+  bar.addEventListener("pointermove", e => {
+    if (!drag) return;
+    w.style.left = e.clientX - drag.x + "px";
+    w.style.top = Math.max(0, e.clientY - drag.y) + "px";
+  });
+  const stopDrag = () => { drag = null; document.body.classList.remove("dragging"); };
+  bar.addEventListener("pointerup", stopDrag); bar.addEventListener("pointercancel", stopDrag);
+
+  let size = null;
+  grip.addEventListener("pointerdown", e => {
+    size = {x:e.clientX, y:e.clientY, w:w.offsetWidth, h:w.offsetHeight};
+    w.style.maxHeight = "none"; grip.setPointerCapture(e.pointerId); document.body.classList.add("dragging"); e.stopPropagation();
+  });
+  grip.addEventListener("pointermove", e => {
+    if (!size) return;
+    w.style.width = Math.max(260, size.w + e.clientX - size.x) + "px";
+    w.style.height = Math.max(180, size.h + e.clientY - size.y) + "px";
+  });
+  const stopSize = () => { size = null; document.body.classList.remove("dragging"); };
+  grip.addEventListener("pointerup", stopSize); grip.addEventListener("pointercancel", stopSize);
+  return w;
+}
+
+function refreshDock(){
+  const dock = $("#dock"); dock.replaceChildren();
+  Object.values(open).forEach(w => {
+    if (w.hidden) dock.append(h("button", {class:"btn light", onclick:() => { w.hidden = false; focusWin(w); refreshDock(); }}, w.getAttribute("aria-label")));
+  });
+}
+
+function openFolder(f, i){
+  const files = f.files.map((file, k) =>
+    h("button", {class:"icon small", onclick:() => openFile(file, i, k)}, h("span", {class:"img", "aria-hidden":"true"}, "📄"), file[0]));
+  makeWindow("d" + i, f.name, h("div", {class:"files"}, files), {w:440});
+}
+
+function openFile(file, i, k){
+  const [name, url] = file;
+  const viewer = [];
+  if (url){
+    viewer.push(
+      h("div", {class:"tools"},
+        h("div", {class:"addr", title:url}, url),
+        h("button", {class:"btn light", onclick:() => { const fr = open["f"+i+"-"+k].querySelector("iframe"); fr.src = url; }}, "Reload"),
+        h("a", {class:"btn", href:url, target:"_blank", rel:"noopener noreferrer"}, "Open in new tab")),
+      h("iframe", {src:url, title:name, loading:"lazy", referrerpolicy:"no-referrer", sandbox:"allow-scripts allow-same-origin allow-popups allow-forms"}),
+      h("div", {class:"hint"}, "Blank page? That website does not allow being shown here. Use Open in new tab."));
+  } else {
+    viewer.push(h("div", {class:"holder"}, h("p", {}, "This file is empty."), h("p", {}, "Add a link or an HTML file name for it in the SITE section of index.html.")));
+  }
+  makeWindow("f" + i + "-" + k, name, viewer, {viewer:true, w:520, h:440});
+}
+
+function tile(){
+  const wins = Object.values(open).filter(w => !w.hidden && w.dataset.kind === "viewer");
+  if (!wins.length) return;
+  const dw = desk.clientWidth, dh = desk.clientHeight, g = 8;
+  const cols = wins.length <= 3 ? wins.length : Math.ceil(Math.sqrt(wins.length));
+  const rows = Math.ceil(wins.length / cols);
+  const cw = (dw - g * (cols + 1)) / cols, ch = (dh - g * (rows + 1)) / rows;
+  wins.forEach((w, n) => {
+    w.classList.remove("full"); w.style.maxHeight = "none";
+    w.style.width = cw + "px"; w.style.height = ch + "px";
+    w.style.left = g + (n % cols) * (cw + g) + "px";
+    w.style.top = g + Math.floor(n / cols) * (ch + g) + "px";
+  });
+}
+$("#tile").addEventListener("click", tile);
+$("#closeall").addEventListener("click", () => { Object.values(open).forEach(w => w.remove()); for (const k in open) delete open[k]; refreshDock(); });
+
+SITE.folders.slice(0, 10).forEach((f, i) => {
+  desk.append(h("button", {class:"icon", onclick:() => openFolder(f, i)}, h("span", {class:"img", "aria-hidden":"true"}, f.icon), f.name));
+});
+
+const imgOf = e => h("span", {class:"img", "aria-hidden":"true"}, e);
+desk.append(h("button", {class:"icon", onclick:() => makeWindow("jail", "Squishy jail", h("p", {class:"big"}, SITE.jail), {w:380})}, imgOf("🔒"), "Squishy jail"));
+desk.append(h("button", {class:"icon corner left", onclick:() => makeWindow("credits", "created by.txt",
+  [h("pre", {class:"ascii"}, CREDITS_ART.join("\n")), ...CREDITS_TEXT.map(t => h("p", {class:"line"}, t))], {w:470})}, imgOf("📝"), "created by.txt"));
+desk.append(h("button", {class:"icon corner right", "aria-label":"Trash"}, imgOf("🗑️"), "Trash"));
+
+makeWindow("welcome", "Welcome", [h("p", {}, SITE.welcome),
+  h("button", {class:"btn", onclick:() => open["welcome"].querySelector(".dot.x").click()}, "Get started")], {w:400});
+</script>
+</body>
+</html>
