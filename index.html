@@ -90,6 +90,18 @@ iframe{flex:1;width:100%;min-height:0;border:0;background:#fff}
 #dock:empty{display:none}
 @media (max-width:600px){#desk{padding:14px;grid-template-columns:repeat(auto-fill,96px)} .menu-btn.hide-s{display:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+.jnav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.jnav strong{flex:1;text-align:center;font-size:17px;min-width:90px}
+.jfield{display:flex;flex-direction:column;gap:4px}
+.jfield label{font-size:21px;font-weight:600}
+.jhint{font-size:15px;color:var(--text-soft)}
+.jfield textarea{width:100%;min-height:64px;resize:none;overflow:hidden;padding:10px 14px;font:20px/1.4 var(--font);color:var(--text);
+  border:2px solid #9aa5b1;border-radius:14px;background:#fff;box-shadow:inset 0 2px 4px rgba(0,0,0,.12)}
+.jfield textarea:focus{outline:none;border-color:var(--blue-3);box-shadow:inset 0 2px 4px rgba(0,0,0,.12),0 0 0 3px rgba(61,143,224,.35)}
+.jfield input{width:100%;padding:10px 14px;font:20px/1.4 var(--font);color:var(--text);border:2px solid #9aa5b1;border-radius:14px;background:#fff;box-shadow:inset 0 2px 4px rgba(0,0,0,.12)}
+.jfield input:focus{outline:none;border-color:var(--blue-3);box-shadow:inset 0 2px 4px rgba(0,0,0,.12),0 0 0 3px rgba(61,143,224,.35)}
+.jfoot{display:flex;gap:10px;flex-wrap:wrap;padding-top:4px}
+.jfoot .btn{font-size:16px;padding:10px 18px}
 </style>
 </head>
 <body>
@@ -272,7 +284,121 @@ desk.append(h("button", {class:"icon corner left", onclick:() => makeWindow("cre
   [h("pre", {class:"ascii"}, CREDITS_ART.join("\n")), ...CREDITS_TEXT.map(t => h("p", {class:"line"}, t))], {w:470})}, imgOf("📝"), "created by.txt"));
 desk.append(h("button", {class:"icon corner right", "aria-label":"Trash"}, imgOf("🗑️"), "Trash"));
 
-makeWindow("welcome", "Welcome", [h("p", {}, SITE.welcome),
+const JOURNAL_FIELDS = [
+  ["📰", "Source", "Where did you read it? (website or newspaper name)"],
+  ["📅", "When?", "When did it happen?"],
+  ["📍", "Where?", "Where did it happen?"],
+  ["❓", "Why?", "Why did it happen?"],
+  ["🔎", "What?", "What happened? Tell it in your own words."],
+  ["💡", "Solution", "How could the problem be fixed?"]
+];
+let journal = [{}], jpage = 0, jname = "";
+
+function journalFile(ext){
+  const safe = jname.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 30);
+  return "investigation-journal" + (safe ? "-" + safe : "") + (ext === "png" ? "-page" + (jpage + 1) : "") + "." + ext;
+}
+function saveBlob(blob, name){
+  const url = URL.createObjectURL(blob);
+  const a = h("a", {href:url, download:name});
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function downloadJournal(){
+  const text = "INVESTIGATION JOURNAL\nName: " + jname + "\n\n" + journal.map((p, i) =>
+    "--- Page " + (i + 1) + " ---\n" + JOURNAL_FIELDS.map(([e, l]) => l + ": " + (p[l] || "")).join("\n")).join("\n\n") + "\n";
+  saveBlob(new Blob([text], {type:"text/plain;charset=utf-8"}), journalFile("txt"));
+}
+
+function rr(ctx, x, y, w, hh, r){
+  ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + hh, r); ctx.arcTo(x + w, y + hh, x, y + hh, r);
+  ctx.arcTo(x, y + hh, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+}
+function wrapText(ctx, text, maxW){
+  const lines = [];
+  String(text).split("\n").forEach(par => {
+    let line = "";
+    par.split(" ").forEach(word => {
+      while (ctx.measureText(word).width > maxW){
+        let i = word.length; while (i > 1 && ctx.measureText(word.slice(0, i)).width > maxW) i--;
+        if (line){ lines.push(line); line = ""; }
+        lines.push(word.slice(0, i)); word = word.slice(i);
+      }
+      const test = line ? line + " " + word : word;
+      if (line && ctx.measureText(test).width > maxW){ lines.push(line); line = word; } else line = test;
+    });
+    lines.push(line);
+  });
+  return lines;
+}
+function paintJournal(ctx, W, H, draw){
+  const F = '"Lucida Grande","Trebuchet MS","Segoe UI",Verdana,sans-serif';
+  const M = 30, P = 32, BAR = 56, inner = W - 2 * M - 2 * P;
+  ctx.textBaseline = "top";
+  if (draw){
+    const g = ctx.createLinearGradient(0, 0, W, H); g.addColorStop(0, "#6fb1e8"); g.addColorStop(1, "#2f78c4");
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = "rgba(255,255,255,.07)"; for (let x = 0; x < W; x += 6) ctx.fillRect(x, 0, 2, H);
+    rr(ctx, M, M, W - 2 * M, H - 2 * M, 22); ctx.fillStyle = "#fff"; ctx.fill();
+    ctx.save(); rr(ctx, M, M, W - 2 * M, H - 2 * M, 22); ctx.clip();
+    const b = ctx.createLinearGradient(0, M, 0, M + BAR); b.addColorStop(0, "#f4f4f4"); b.addColorStop(1, "#cfcfcf");
+    ctx.fillStyle = b; ctx.fillRect(M, M, W - 2 * M, BAR); ctx.fillStyle = "#8f8f8f"; ctx.fillRect(M, M + BAR - 1, W - 2 * M, 1);
+    ctx.restore();
+    rr(ctx, M, M, W - 2 * M, H - 2 * M, 22); ctx.strokeStyle = "#6d7b8a"; ctx.lineWidth = 2; ctx.stroke();
+    ["#e5392b", "#eba91a", "#3fb62c"].forEach((c, i) => { ctx.beginPath(); ctx.arc(M + 30 + i * 26, M + BAR / 2, 9, 0, Math.PI * 2); ctx.fillStyle = c; ctx.fill(); });
+    ctx.fillStyle = "#1d2733"; ctx.font = "600 24px " + F; ctx.textAlign = "center"; ctx.fillText("Investigation Journal", W / 2, M + 16); ctx.textAlign = "left";
+  }
+  let y = M + BAR + P;
+  ctx.font = "600 30px " + F; if (draw){ ctx.fillStyle = "#1d2733"; ctx.fillText("👤 Name: " + (jname || "________"), M + P, y); } y += 44;
+  ctx.font = "22px " + F; if (draw){ ctx.fillStyle = "#5b6877"; ctx.fillText("Page " + (jpage + 1) + " of " + journal.length, M + P, y); } y += 48;
+  JOURNAL_FIELDS.forEach(([e, l]) => {
+    ctx.font = "600 28px " + F; if (draw){ ctx.fillStyle = "#1d2733"; ctx.fillText(e + " " + l, M + P, y); } y += 40;
+    ctx.font = "26px " + F;
+    const lines = wrapText(ctx, journal[jpage][l] || "", inner - 36), bh = Math.max(64, lines.length * 34 + 28);
+    if (draw){
+      rr(ctx, M + P, y, inner, bh, 14); ctx.fillStyle = "#f5f8fb"; ctx.fill(); ctx.strokeStyle = "#9aa5b1"; ctx.lineWidth = 2; ctx.stroke();
+      ctx.fillStyle = "#1d2733"; lines.forEach((t, i) => ctx.fillText(t, M + P + 18, y + 14 + i * 34));
+    }
+    y += bh + 26;
+  });
+  return y - 26 + P + M;
+}
+function saveJournalPicture(){
+  const W = 1000, H = paintJournal(document.createElement("canvas").getContext("2d"), W, 0, false);
+  const c = document.createElement("canvas"); c.width = W; c.height = H;
+  paintJournal(c.getContext("2d"), W, H, true);
+  c.toBlob(b => saveBlob(b, journalFile("png")), "image/png");
+}
+
+function openJournal(){
+  const nav = h("div", {class:"jnav"});
+  const nameIn = h("input", {type:"text", maxlength:"40", "aria-label":"Your name", placeholder:"Type your name here"});
+  nameIn.addEventListener("input", () => { jname = nameIn.value; });
+  const nameBox = h("div", {class:"jfield"}, h("label", {}, "👤 User name"), h("span", {class:"jhint"}, "What is your name?"), nameIn);
+  const areas = JOURNAL_FIELDS.map(([emo, label, hint]) => {
+    const ta = h("textarea", {rows:"2", spellcheck:"true", "aria-label":label});
+    ta._grow = () => { if (ta.scrollHeight > 0){ ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; } };
+    ta.addEventListener("input", () => { journal[jpage][label] = ta.value; ta._grow(); });
+    return {label, ta, box:h("div", {class:"jfield"}, h("label", {}, emo + " " + label), h("span", {class:"jhint"}, hint), ta)};
+  });
+  const show = () => {
+    nav.replaceChildren(
+      h("button", {class:"btn light", onclick:() => { if (jpage > 0){ jpage--; show(); } }}, "◀ Back"),
+      h("strong", {}, "Page " + (jpage + 1) + " of " + journal.length),
+      h("button", {class:"btn light", onclick:() => { if (jpage < journal.length - 1){ jpage++; show(); } }}, "Next ▶"),
+      h("button", {class:"btn", onclick:() => { journal.push({}); jpage = journal.length - 1; show(); }}, "+ New page"));
+    nameIn.value = jname;
+    areas.forEach(a => { a.ta.value = journal[jpage][a.label] || ""; a.ta._grow(); });
+  };
+  const foot = h("div", {class:"jfoot"},
+    h("button", {class:"btn", onclick:saveJournalPicture}, "🖼 Save page as picture"),
+    h("button", {class:"btn", onclick:downloadJournal}, "⬇ Save as text file"),
+    h("button", {class:"btn light", onclick:() => { if (confirm("Start over? This erases your whole journal.")){ journal = [{}]; jpage = 0; jname = ""; show(); } }}, "Start over"));
+  makeWindow("journal", "Investigation Journal", [nav, nameBox, ...areas.map(a => a.box), foot], {w:540, h:600});
+  show();
+}
+desk.append(h("button", {class:"icon", onclick:openJournal}, imgOf("📓"), "Investigation Journal"));
+  makeWindow("welcome", "Welcome", [h("p", {}, SITE.welcome),
   h("button", {class:"btn", onclick:() => open["welcome"].querySelector(".dot.x").click()}, "Get started")], {w:400});
 </script>
 </body>
