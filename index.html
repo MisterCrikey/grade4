@@ -194,8 +194,9 @@ function makeWindow(id, title, content, opts = {}){
   if (opts.h) w.style.height = Math.min(opts.h, dh - 16) + "px"; else w.style.maxHeight = (dh - 16) + "px";
   w.style.left = Math.max(8, Math.min(130 + n, dw - width - 8)) + "px";
   w.style.top = (14 + n) + "px";
-  w.dataset.kind = opts.viewer ? "viewer" : "folder";
+  w.dataset.kind = (opts.viewer || opts.tile) ? "viewer" : "folder";
   desk.append(w); open[id] = w; focusWin(w);
+    if (opts.center){ w.style.left = Math.max(8, (dw - w.offsetWidth) / 2) + "px"; w.style.top = Math.max(8, (dh - w.offsetHeight) / 2) + "px"; }
   w.addEventListener("pointerdown", () => focusWin(w));
 
   let drag = null;
@@ -394,12 +395,12 @@ function openJournal(){
     h("button", {class:"btn", onclick:saveJournalPicture}, "🖼 Save page as picture"),
     h("button", {class:"btn", onclick:downloadJournal}, "⬇ Save as text file"),
     h("button", {class:"btn light", onclick:() => { if (confirm("Start over? This erases your whole journal.")){ journal = [{}]; jpage = 0; jname = ""; show(); } }}, "Start over"));
-  makeWindow("journal", "Investigation Journal", [nav, nameBox, ...areas.map(a => a.box), foot], {w:540, h:600});
+  makeWindow("journal", "Investigation Journal", [nav, nameBox, ...areas.map(a => a.box), foot], {w:540, h:600, tile:true});
   show();
 }
 desk.append(h("button", {class:"icon", onclick:openJournal}, imgOf("📓"), "Investigation Journal"));
   makeWindow("welcome", "Welcome", [h("p", {}, SITE.welcome),
-  h("button", {class:"btn", onclick:() => open["welcome"].querySelector(".dot.x").click()}, "Get started")], {w:400});
+  h("button", {class:"btn", onclick:() => open["welcome"].querySelector(".dot.x").click()}, "Get started")], {w:400, center:true});
 </script>
 </body>
 </html>
