@@ -131,7 +131,7 @@ const SITE = {
   welcome: "Open a folder, then open a file. You can drag windows, resize them from the corner, and place them side by side.",
   jail: "Unfortunately no squishies here. :( ",
   folders: [
-    { name: "Yellow Alaska River",  icon: "📁", files: [["Yale Enviroment", "https://e360.yale.edu/features/rusting-rivers"], ["National Geographic", "https://www.nationalgeographic.com/environment/article/alaska-orange-rivers-rusting"], ["Alaska News", "https://www.alaskasnewssource.com/2025/12/18/new-report-alaska-rivers-turn-pumpkin-orange-warming-sets-new-records/"]] },
+    { name: "Yellow Alaska River",  icon: "📁", files: [["Yale Environment", "https://e360.yale.edu/features/rusting-rivers"], ["National Geographic", "https://www.nationalgeographic.com/environment/article/alaska-orange-rivers-rusting"], ["Alaska News", "https://www.alaskasnewssource.com/2025/12/18/new-report-alaska-rivers-turn-pumpkin-orange-warming-sets-new-records/"]] },
     { name: "Folder 2",  icon: "📁", files: [["File 1", ""], ["File 2", ""]] },
     { name: "Folder 3",  icon: "📁", files: [["File 1", ""], ["File 2", ""]] },
     { name: "Folder 4",  icon: "📁", files: [["File 1", ""], ["File 2", ""]] },
@@ -286,12 +286,12 @@ desk.append(h("button", {class:"icon corner left", onclick:() => makeWindow("cre
 desk.append(h("button", {class:"icon corner right", "aria-label":"Trash"}, imgOf("🗑️"), "Trash"));
 
 const JOURNAL_FIELDS = [
-  ["📰", "Source", "Where did you read it? (website or newspaper name)"],
+  ["🔎", "What?", "What happened? Tell it in your own words."],
   ["📅", "When?", "When did it happen?"],
   ["📍", "Where?", "Where did it happen?"],
   ["❓", "Why?", "Why did it happen?"],
-  ["🔎", "What?", "What happened? Tell it in your own words."],
-  ["💡", "Solution", "How could the problem be fixed?"]
+  ["💡", "Solution", "Could the problem be fixed?"],
+  ["📰", "Source", "Where did you read it? (website or newspaper name)"],
 ];
 let journal = [{}], jpage = 0, jname = "";
 
