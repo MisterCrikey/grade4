@@ -147,7 +147,7 @@ const SITE = {
       icon: "🪸",
       files: [
         ["Abrolhos, Brazil", "https://www1.folha.uol.com.br/internacional/en/scienceandhealth/2026/03/abrolhos-suffered-significant-coral-loss-in-less-than-two-decades.shtml", "📰"],
-        ["File 2", "", "⏯️"]
+        ["File 2", "videos/corals.mkv", "⏯️"]
       ]
     },
     {
@@ -163,7 +163,7 @@ const SITE = {
       icon: "🏜️",
       files: [
         ["Atacama Desert, Chile", "https://www.npr.org/2026/11/08/nx-s1-6023812/chile-desert-el-nino", "📰"],
-        ["File 2", "", "⏯️"]
+        ["File 2", "videos/deserts.mkv", "⏯️"]
       ]
     },
     {
@@ -171,7 +171,7 @@ const SITE = {
       icon: "🧊",
       files: [
         ["Patagonia, Argentina", "pages/bbcpata.html", "📰"],
-        ["File 2", "", "⏯️"]
+        ["File 2", "videos/glacier.mkv", "⏯️"]
       ]
     },
     {
@@ -179,7 +179,7 @@ const SITE = {
       icon: "🏖️",
       files: [
         ["Bertioga, Brazil", "pages/wwf.html", "📰"],
-        ["File 2", "", "⏯️"]
+        ["File 2", "videos/beaches.mkv", "⏯️"]
       ]
     }
   ]
@@ -293,7 +293,7 @@ function openFile(file, i, k){
         h("div", {class:"addr", title:url}, url),
         h("button", {class:"btn light", onclick:() => { const fr = open["f"+i+"-"+k].querySelector("iframe"); fr.src = url; }}, "Reload")),
       h("iframe", {src:url, title:name, loading:"lazy", referrerpolicy:"no-referrer", sandbox:"allow-scripts allow-same-origin allow-forms"}),
-      h("div", {class:"hint"}, (extra && extra !== "card") ? extra : "Blank page? This website does not allow being shown here. Ask your teacher."));
+      h("div", {class:"hint"}, (extra && extra !== "card") ? extra : "Can't see anything? That's definately a bug! call Mr.Lucas."));
   } else {
     viewer.push(h("div", {class:"holder"}, h("p", {}, "This file is empty."), h("p", {}, "Add a link or an HTML file name for it in the SITE section of index.html.")));
   }
