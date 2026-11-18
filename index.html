@@ -102,13 +102,12 @@ iframe{flex:1;width:100%;min-height:0;border:0;background:#fff}
 .bigbtn{display:inline-block;margin-top:10px;font-size:18px;padding:12px 26px}
 .holder{margin:auto;max-width:340px;text-align:center;padding:24px;color:var(--text-soft);line-height:1.5}
 
-/* ===== PICTURE VIEWER (picture + editable subtitle) ===== */
+/* ===== PICTURE VIEWER (picture + read-only subtitle) ===== */
 .pic{flex:1;min-height:0;display:flex;flex-direction:column;background:#fff}
 .pic .frame{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;background:#eef2f6;padding:10px}
 .pic .frame img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.2)}
 .pic .caption{flex:none;max-height:38%;overflow:auto;padding:14px 20px;font-size:18px;line-height:1.55;border-top:1px solid #d3dbe3;outline:none;background:#fff}
-.pic .caption:focus{box-shadow:inset 0 0 0 2px var(--blue-2)}
-.pic .caption:empty::before{content:attr(data-placeholder);color:#8a96a3}
+.pic .caption:empty{display:none}
 
 /* ===== DOCK (minimized windows) AND PHONE SIZES ===== */
 #dock{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);display:flex;gap:10px;padding:10px 16px;max-width:94vw;overflow-x:auto;z-index:9998;
@@ -153,9 +152,8 @@ iframe{flex:1;width:100%;min-height:0;border:0;background:#fff}
            ["Mangrove roots", "pictures/roots.jpg", "🖼️", "Roots protect the coast."]
        for a page or video it is the small hint at the bottom of the window.
 
-   Students and teachers can click the subtitle under a picture and
-   edit it. Edits are saved in that browser. To change the subtitle for
-   everyone, change the note here.
+   Subtitles are read-only: students cannot change them. To change a
+   subtitle, edit the note here.
 
    Everything opens inside the window. This site never opens new tabs
    or popups. Some websites refuse to be shown inside another page and
@@ -358,19 +356,12 @@ function openPage(file, id){
   ], {viewer:true, w:520, h:440});
 }
 
-// A picture with a subtitle underneath that can be edited.
+// A picture with a read-only subtitle underneath.
 function openPicture(file, id){
-  const [name, url] = file, key = "caption:" + url;
-  let saved = null;
-  try{ saved = localStorage.getItem(key); }catch(e){}
+  const [name, url] = file;
 
-  const caption = h("div", {class:"caption", contenteditable:"true", spellcheck:"true", "data-placeholder":"Click here to write a subtitle…"});
-  caption.textContent = saved !== null ? saved : fileNote(file);
-  caption.addEventListener("input", () => { try{ localStorage.setItem(key, caption.innerText); }catch(e){} });
-  caption.addEventListener("paste", e => {               // paste as plain text only
-    e.preventDefault();
-    document.execCommand("insertText", false, (e.clipboardData || window.clipboardData).getData("text"));
-  });
+  // Read-only subtitle: the text comes only from the note in the SITE list.
+  const caption = h("div", {class:"caption"}, fileNote(file));
 
   const img = h("img", {src:url, alt:name});
   const frame = h("div", {class:"frame"}, img);
@@ -378,8 +369,7 @@ function openPicture(file, id){
     h("p", {}, "This picture could not be found."),
     h("p", {}, "Check that the file is in the folder and the name matches exactly: " + url))));
 
-  makeWindow(id, name, [h("div", {class:"pic"}, frame, caption,
-    h("div", {class:"hint"}, "Click the text under the picture to edit the subtitle. It saves by itself on this computer."))],
+  makeWindow(id, name, [h("div", {class:"pic"}, frame, caption)],
     {viewer:true, w:560, h:540});
 }
 
