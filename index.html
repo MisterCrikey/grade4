@@ -124,12 +124,10 @@ iframe{flex:1;width:100%;min-height:0;border:0;background:#fff}
        online page:   "https://example.com/article"
        your own file: "pages/lesson1.html"  (upload it next to index.html)
        empty:         ""  (shows a placeholder until you add a link)
-   - Add a third item to open the article in a new tab instead of inside the window:
-       ["File name", "https://example.com/article", "card"]
-       (use this for websites that stay blank inside the window; you can also
-        write your own short sentence instead of "card" and it will be shown to the students)
-   - Some websites refuse to be shown inside another page. When that happens,
-     the "Open in new tab" button in the window always works.
+   - Everything opens inside the window. This site never opens new tabs
+     or popups, to keep students in a safe, distraction-free space.
+   - Some websites refuse to be shown inside another page and stay blank.
+     For those, save a copy as your own file in pages/ and link that instead.
    ========================================================== */
 const SITE = {
   name: "Grade 4’s Unit Article Hub",
@@ -246,19 +244,14 @@ function openFile(file, i, k){
   const [name, url, extra0] = file;
   const extra = /^\p{Extended_Pictographic}/u.test(extra0 || "") ? "" : extra0;
   const viewer = [];
-  if (url && extra){
-    viewer.push(h("div", {class:"holder"},
-      h("p", {class:"big"}, name),
-      h("p", {}, extra === "card" ? "This article opens in a new tab." : extra),
-      h("a", {class:"btn bigbtn", href:url, target:"_blank", rel:"noopener noreferrer"}, "Read the article ↗")));
-  } else if (url){
+  if (url){
+    // Everything opens INSIDE the window. No links to other tabs, no popups.
     viewer.push(
       h("div", {class:"tools"},
         h("div", {class:"addr", title:url}, url),
-        h("button", {class:"btn light", onclick:() => { const fr = open["f"+i+"-"+k].querySelector("iframe"); fr.src = url; }}, "Reload"),
-        h("a", {class:"btn", href:url, target:"_blank", rel:"noopener noreferrer"}, "Open in new tab")),
-      h("iframe", {src:url, title:name, loading:"lazy", referrerpolicy:"no-referrer", sandbox:"allow-scripts allow-same-origin allow-popups allow-forms"}),
-      h("div", {class:"hint"}, "Blank page? That website does not allow being shown here. Use Open in new tab."));
+        h("button", {class:"btn light", onclick:() => { const fr = open["f"+i+"-"+k].querySelector("iframe"); fr.src = url; }}, "Reload")),
+      h("iframe", {src:url, title:name, loading:"lazy", referrerpolicy:"no-referrer", sandbox:"allow-scripts allow-same-origin allow-forms"}),
+      h("div", {class:"hint"}, (extra && extra !== "card") ? extra : "Blank page? This website does not allow being shown here. Ask your teacher."));
   } else {
     viewer.push(h("div", {class:"holder"}, h("p", {}, "This file is empty."), h("p", {}, "Add a link or an HTML file name for it in the SITE section of index.html.")));
   }
