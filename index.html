@@ -549,6 +549,15 @@ SITE.folders.slice(0, 10).forEach((f, i) => addIcon("icon", f.icon, f.name, () =
 // Fixed icons
 addIcon("icon", "🔒", "Squishy jail", () => makeWindow("jail", "Squishy jail", h("p", {class:"big"}, SITE.jail), {w:380}));
 addIcon("icon", "📓", "Investigation Journal", openJournal);
+
+// 📬 Send to teacher: opens your Google Form inside a window
+const SEND_FORM = "https://docs.google.com/forms/d/e/1FAIpQLSfCBtVAQn6WOL1j2Z15G1Uy09NFt2YpXUGGxBt77et6A-IUlQ/viewform";
+addIcon("icon", "📬", "Send to teacher", () => makeWindow("send", "Send to teacher", [
+  h("div", {class:"holder"},
+    h("p", {class:"big"}, "📬"),
+    h("p", {}, "Finished your journal? Click the button to open the form and send it to your teacher."),
+    h("button", {class:"btn bigbtn", onclick:() => window.open(SEND_FORM, "_blank", "noopener")}, "Open the form ↗"))
+], {viewer:true, w:420, h:300}));
 addIcon("icon corner left", "📝", "created by.txt", () => makeWindow("credits", "created by.txt",
   [h("pre", {class:"ascii"}, CREDITS_ART.join("\n")), ...CREDITS_TEXT.map(t => h("p", {class:"line"}, t))], {w:470}));
 addIcon("icon corner right", "🗑️", "Trash", () => {});
