@@ -304,7 +304,8 @@ function makeWindow(id, title, content, opts = {}){
   w.style.width = width + "px";
   if (opts.h) w.style.height = Math.min(opts.h, dh - 16) + "px"; else w.style.maxHeight = (dh - 16) + "px";
   w.style.left = Math.max(8, Math.min(130 + n, dw - width - 8)) + "px";
-  w.style.top = (14 + n) + "px";
+  const winH = opts.h ? Math.min(opts.h, dh - 16) : 0;
+  w.style.top = Math.max(8, Math.min(14 + n, dh - winH - 8)) + "px";
   w.dataset.kind = (opts.viewer || opts.tile) ? "viewer" : "folder";
   desk.append(w); open[id] = w; focusWin(w);
   if (opts.center){ w.style.left = Math.max(8, (dw - w.offsetWidth) / 2) + "px"; w.style.top = Math.max(8, (dh - w.offsetHeight) / 2) + "px"; }
@@ -384,7 +385,7 @@ function openPage(file, id){
       h("button", {class:"btn light", onclick:() => { open[id].querySelector("iframe").src = url; }}, "Reload")),
     h("iframe", {src:url, title:name, loading:"lazy", referrerpolicy:"no-referrer", sandbox:"allow-scripts allow-same-origin allow-forms"}),
     h("div", {class:"hint"}, (note && note !== "card") ? note : "Can't see anything? That's definitely a bug! Call Mr. Lucas.")
-  ], {viewer:true, w:520, h:440});
+  ], {viewer:true, w:Math.round(desk.clientWidth * 0.75), h:Math.round(desk.clientHeight * 0.92)});
 }
 
 // A picture with a read-only subtitle underneath.
@@ -401,7 +402,7 @@ function openPicture(file, id){
     h("p", {}, "Check that the file is in the folder and the name matches exactly: " + url))));
 
   makeWindow(id, name, [h("div", {class:"pic"}, frame, caption)],
-    {viewer:true, w:560, h:540});
+    {viewer:true, w:Math.round(desk.clientWidth * 0.6), h:Math.round(desk.clientHeight * 0.92)});
 }
 
 /* ======== 5. MENU BAR BUTTONS (tile and close all) ======== */
