@@ -646,7 +646,7 @@ function openTyping(){
     const err = h("p", {class:"terr", "aria-live":"polite"});
     const tryIt = () => {
       if (input.value.trim() === CFG.password) showHands();
-      else { err.textContent = "That is not the right password. Try again or ask your teacher."; input.value = ""; input.focus(); }
+      else { err.textContent = "That is not the right password, bruh."; input.value = ""; input.focus(); }
     };
     input.addEventListener("keydown", e => { if (e.key === "Enter"){ e.preventDefault(); tryIt(); } });
     show(
