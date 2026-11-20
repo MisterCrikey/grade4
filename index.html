@@ -109,6 +109,40 @@ iframe{flex:1;width:100%;min-height:0;border:0;background:#fff}
 .pic .caption{flex:none;max-height:38%;overflow:auto;padding:14px 20px;font-size:18px;line-height:1.55;border-top:1px solid #d3dbe3;outline:none;background:#fff}
 .pic .caption:empty{display:none}
 
+/* ===== TYPING PRACTICE ===== */
+.icon.typing{grid-column-start:1}
+.tword{font:600 44px/1.3 ui-monospace,Menlo,Consolas,monospace;text-align:center;letter-spacing:4px;padding:6px 0;white-space:pre-wrap;word-break:break-word}
+.tword.long{font-size:26px;letter-spacing:1px}
+.tword span{color:#9aa5b1;border-bottom:4px solid transparent}
+.tword .ok{color:#3fb62c}
+.tword .bad{color:#d62d20;background:#ffe0dc}
+.tword .cur{color:var(--text);border-bottom-color:var(--blue-3)}
+.ttyped{font:600 26px/1.3 ui-monospace,Menlo,Consolas,monospace;min-height:48px;padding:8px 14px;text-align:center;white-space:pre-wrap;word-break:break-word;
+  background:#f5f8fb;border:2px solid #9aa5b1;border-radius:12px;box-shadow:inset 0 2px 4px rgba(0,0,0,.12)}
+.ttyped::after{content:"▏";color:var(--blue-3);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.ttyped .ok{color:#2f9a1f}
+.ttyped .bad{color:#d62d20;background:#ffe0dc}
+.tmsg{margin:0;text-align:center;min-height:24px;font-size:17px;color:var(--text-soft)}
+.tmsg.warn{color:#d62d20;font-weight:600}
+.thead{display:flex;justify-content:space-between;font-weight:600;font-size:17px}
+.tstats{display:flex;justify-content:space-around;font-size:17px;color:var(--text)}
+.terr{margin:0;color:#d62d20;min-height:22px;text-align:center;font-size:15px}
+.tlock{max-width:420px;margin:0 auto;width:100%}
+.tcount{margin:0;padding:30px 0;font-size:26px;font-weight:600;color:var(--blue-3)}
+.tbig{font-size:26px;font-weight:700;margin:0;text-align:center}
+.thands{max-width:520px;width:100%;margin:0 auto}
+.thands svg{width:100%;height:auto;display:block}
+.tkb{display:flex;flex-direction:column;gap:5px;padding:10px;border-radius:14px;background:#e3e9ef;border:1px solid #b5c0cc}
+.tkrow{display:flex;gap:5px}
+.key{flex:1;min-width:0;height:38px;display:grid;place-items:center;border-radius:8px;font-size:15px;font-weight:600;
+  text-transform:uppercase;color:var(--text);background:linear-gradient(#fff,#dfe5eb);border:1px solid #9aa5b1;box-shadow:0 2px 0 #9aa5b1;transition:background .08s}
+.key.wide{flex:2.6;font-size:13px;text-transform:none}.key.space{flex:6}
+.key.next{background:#ffe48a;border-color:#d9a400}
+.key.pulse{animation:pulse .7s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.1)}}
+.key.down{background:linear-gradient(var(--blue-1),var(--blue-3));color:#fff;transform:translateY(2px);box-shadow:none}
+.key.bad{background:#ff9a8f;border-color:#e5392b}
 /* ===== DOCK (minimized windows) AND PHONE SIZES ===== */
 #dock{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);display:flex;gap:10px;padding:10px 16px;max-width:94vw;overflow-x:auto;z-index:9998;
   border-radius:22px;border:1px solid rgba(255,255,255,.7);background:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.25));
@@ -164,6 +198,23 @@ const SITE = {
   name: "Grade 4’s Unit Article Hub",
   welcome: "Open a folder, then open a file. You can drag windows, resize them from the corner, and place them side by side.",
   jail: "Unfortunately no squishies here. :( ",
+  // ⌨️ Typing practice settings. Use lowercase letters and spaces only in the words and phrases.
+  typing: {
+    password: "sharingtheplanet",
+    goalWpm: 12,          // words per minute that earns the full speed points
+    levels: [
+      {name:"Level 1 · Words", what:"short words", count:5,
+       items:["impact","change","climate","mangrove","beach","forest","roots","dumping","landfill","coral","ocean","desert","trash","planet","glacier","reef"]},
+      {name:"Level 2 · Big words", what:"longer words", count:5,
+       items:["characteristic","ecosystem","conservation","environment","pollution","endangered","temperature","biodiversity","sustainable","rainforest","extinction","vegetation"]},
+      {name:"Level 3 · Phrases", what:"full phrases", count:3,
+       items:["mangrove roots protect the coast","coral reefs are home to many fish","trash in the ocean hurts animals","the amazon is a huge rainforest",
+              "warm weather melts the glaciers","we must protect our planet","plants and animals need a healthy habitat","dumping trash harms the environment",
+              "the atacama is a very dry desert","clean beaches help sea turtles","a landfill is where trash is buried"]}
+    ],
+    scoreNames: [["🌱","Little Seedling"],["🪴","Growing Sprout"],["🦀","Beach Crab"],["🐠","Reef Fish"],["🐢","Sea Turtle"],
+                 ["🐬","Smart Dolphin"],["🦜","Rainforest Toucan"],["🐆","Swift Jaguar"],["🐋","Blue Whale"],["🌍","Planet Protector"]]
+  },
   folders: [
     {
       name: "Mangroves",
@@ -540,6 +591,234 @@ function openJournal(){
 }
 
 
+/* ======== 6b. TYPING PRACTICE (password, hands guide, levels, score) ======== */
+let typingHandler = null, typingSession = 0;
+
+// Picture of the hands on the home row (drawn as SVG)
+function handsSVG(){
+  const P = 46, K = 40, X0 = 30;
+  const rowsK = [["q","w","e","r","t","y","u","i","o","p"], ["a","s","d","f","g","h","j","k","l",";"], ["z","x","c","v","b","n","m",",","."]];
+  const rowX = [X0, X0 + 11.5, X0 + 34.5], rowY = [14, 60, 106];
+  const keyFill = {a:"#ffd1e0", s:"#ffe3b8", d:"#d7f2bd", f:"#bfe0ff", j:"#bfe0ff", k:"#d7f2bd", l:"#ffe3b8", ";":"#ffd1e0"};
+  const FN = {pinky:"#ff7aa5", ring:"#ffab3d", middle:"#7cc93f", index:"#3f9cff", thumb:"#a97bff"};
+  let s = '<svg viewBox="0 0 520 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top view of two hands on a keyboard. Fingers rest on A S D F and J K L semicolon, thumbs on the space bar.">';
+  rowsK.forEach((r, ri) => r.forEach((c, i) => {
+    const x = rowX[ri] + i * P, y = rowY[ri];
+    s += '<rect x="' + x + '" y="' + y + '" width="' + K + '" height="' + K + '" rx="7" fill="' + (keyFill[c] || "#fff") + '" stroke="#9aa5b1" stroke-width="1.5"/>';
+    s += '<text x="' + (x + K / 2) + '" y="' + (y + 17) + '" text-anchor="middle" font-size="15" font-weight="700" fill="#1d2733" font-family="monospace">' + c.toUpperCase() + '</text>';
+  }));
+  s += '<rect x="118" y="152" width="250" height="40" rx="7" fill="#fff" stroke="#9aa5b1" stroke-width="1.5"/>';
+  s += '<text x="243" y="177" text-anchor="middle" font-size="13" font-weight="700" fill="#5b6877" font-family="monospace">SPACE</text>';
+  // fingers: [x of key centre, colour, base y]
+  const fingers = [[61.5, FN.pinky, 250], [107.5, FN.ring, 250], [153.5, FN.middle, 250], [199.5, FN.index, 250],
+                   [337.5, FN.index, 250], [383.5, FN.middle, 250], [429.5, FN.ring, 250], [475.5, FN.pinky, 250]];
+  fingers.forEach(f => { s += '<line x1="' + f[0] + '" y1="92" x2="' + f[0] + '" y2="' + f[2] + '" stroke="' + f[1] + '" stroke-width="24" stroke-linecap="round" opacity=".88"/>'; });
+  s += '<rect x="44" y="212" width="170" height="82" rx="34" fill="#d9e1ea" stroke="#9aa5b1"/>';
+  s += '<rect x="324" y="212" width="172" height="82" rx="34" fill="#d9e1ea" stroke="#9aa5b1"/>';
+  s += '<line x1="190" y1="272" x2="250" y2="200" stroke="' + FN.thumb + '" stroke-width="24" stroke-linecap="round" opacity=".9"/>';
+  s += '<line x1="350" y1="272" x2="290" y2="200" stroke="' + FN.thumb + '" stroke-width="24" stroke-linecap="round" opacity=".9"/>';
+  s += '<text x="129" y="270" text-anchor="middle" font-size="14" font-weight="600" fill="#1d2733" font-family="sans-serif">left hand</text>';
+  s += '<text x="410" y="270" text-anchor="middle" font-size="14" font-weight="600" fill="#1d2733" font-family="sans-serif">right hand</text>';
+  return s + '</svg>';
+}
+
+function openTyping(){
+  if (open.typing){ makeWindow("typing", "Typing practice", [], {}); return; }
+  if (typingHandler) document.removeEventListener("keydown", typingHandler);
+
+  const CFG = SITE.typing, sid = ++typingSession;
+  const alive = () => sid === typingSession && open.typing;
+  const root = h("div", {style:"display:flex;flex-direction:column;gap:12px"});
+  const show = (...nodes) => root.replaceChildren(...nodes);
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const flash = (el, cls, ms) => { if (!el) return; el.classList.add(cls); setTimeout(() => el.classList.remove(cls), ms); };
+
+  let state = "lock", onEnter = null, busy = false, ui = {keys:{}};
+  let plan = [], lv = 0, idx = 0, target = "", typed = "", startT = null;
+  let elapsed = 0, attempts = 0, correct = 0, charsDone = 0;
+
+  /* ---- Screen 1: password ---- */
+  function showLock(){
+    state = "lock"; onEnter = null;
+    const input = h("input", {type:"password", "aria-label":"Password", placeholder:"Type the password", autocomplete:"off"});
+    const err = h("p", {class:"terr", "aria-live":"polite"});
+    const tryIt = () => {
+      if (input.value.trim() === CFG.password) showHands();
+      else { err.textContent = "That is not the right password. Try again or ask your teacher."; input.value = ""; input.focus(); }
+    };
+    input.addEventListener("keydown", e => { if (e.key === "Enter"){ e.preventDefault(); tryIt(); } });
+    show(
+      h("div", {style:"text-align:center"}, h("p", {class:"big"}, "🔒 Typing practice is locked"), h("p", {class:"soft"}, "Type the password to open it.")),
+      h("div", {class:"jfield tlock"}, h("label", {}, "Password"), h("span", {class:"jhint"}, "Ask Mr.Lucas for the password."), input),
+      err,
+      h("div", {style:"text-align:center"}, h("button", {class:"btn bigbtn", onclick:tryIt}, "Unlock")));
+    setTimeout(() => input.focus(), 60);
+  }
+
+  /* ---- Screen 2: where do my hands go? (3 seconds, then "Are you ready?") ---- */
+  function showHands(){
+    state = "hands"; onEnter = null;
+    const pic = h("div", {class:"thands"}); pic.innerHTML = handsSVG();
+    const box = h("div", {style:"text-align:center;min-height:120px"});
+    let n = 3;
+    const setCount = () => box.replaceChildren(h("p", {class:"tcount"}, "Get ready… " + n));
+    setCount();
+    const tick = () => {
+      if (!alive()) return;
+      n--;
+      if (n > 0){ setCount(); setTimeout(tick, 1000); } else showReady(box);
+    };
+    setTimeout(tick, 1000);
+    show(
+      h("div", {style:"text-align:center"}, h("p", {class:"big", style:"padding:0 0 6px"}, "✋ Where do my hands go?"),
+        h("p", {class:"soft"}, "Rest your fingers on the middle row: A S D F and J K L ; — and your thumbs on the space bar.")),
+      pic, box);
+  }
+  function showReady(box){
+    state = "ready"; onEnter = startGame;
+    box.replaceChildren(
+      h("p", {class:"tbig"}, "Are you ready to start?"),
+      h("p", {class:"soft", style:"margin:6px 0"}, "Tip: if you make a mistake, press Backspace ⌫ to erase it."),
+      h("button", {class:"btn bigbtn", onclick:startGame}, "Yes, I’m ready! ▶"),
+      h("p", {class:"soft", style:"font-size:14px"}, "(or press Enter)"));
+  }
+
+  /* ---- Game ---- */
+  function startGame(){
+    plan = CFG.levels.map(L => shuffle(L.items).slice(0, L.count));
+    lv = 0; idx = 0; elapsed = 0; attempts = 0; correct = 0; charsDone = 0;
+    showPlay();
+  }
+
+  function showPlay(){
+    state = "play"; onEnter = null; busy = false;
+    const L = CFG.levels[lv];
+    const keys = {};
+    const rows = ["1234567890".split("").concat(["Backspace"]), "qwertyuiop".split(""), "asdfghjkl".split(""), "zxcvbnm".split(""), [" "]];
+    const kb = h("div", {class:"tkb", "aria-hidden":"true"}, rows.map((r, i) =>
+      h("div", {class:"tkrow", style:"padding-left:" + (i === 2 ? "4%" : i === 3 ? "8%" : "0")},
+        r.map(k => {
+          const el = h("div", {class:"key" + (k === "Backspace" ? " wide" : "") + (k === " " ? " space" : "")},
+            k === "Backspace" ? "⌫ Backspace" : k === " " ? "space" : k);
+          keys[k] = el; return el;
+        }))));
+    const count = h("span", {});
+    ui = {
+      keys, count,
+      prompt: h("div", {class:"tword", "aria-live":"polite"}),
+      typedEl: h("div", {class:"ttyped", "aria-label":"What you typed"}),
+      msg: h("p", {class:"tmsg", "aria-live":"polite"})
+    };
+    show(
+      h("div", {class:"thead"}, h("span", {}, L.name), count),
+      ui.prompt, ui.typedEl, ui.msg, kb,
+      h("p", {class:"soft", style:"text-align:center;font-size:14px;margin:0"}, "Made a mistake? Press Backspace ⌫ to erase it."));
+    loadItem();
+  }
+
+  function loadItem(){
+    target = plan[lv][idx].toLowerCase(); typed = ""; startT = null; busy = false;
+    ui.count.textContent = (idx + 1) + " of " + plan[lv].length;
+    update();
+  }
+
+  function update(){
+    const bad = [...typed].findIndex((c, i) => c !== target[i]);   // -1 = no mistakes
+    ui.prompt.className = "tword" + (target.length > 16 ? " long" : "");
+    ui.prompt.replaceChildren(...[...target].map((c, i) => {
+      let cls = "";
+      if (i < typed.length) cls = (bad === -1 || i < bad) ? "ok" : "bad";
+      else if (i === typed.length) cls = "cur";
+      return h("span", {class:cls}, c);
+    }));
+    ui.typedEl.replaceChildren(...[...typed].map((c, i) => h("span", {class:(bad === -1 || i < bad) ? "ok" : "bad"}, c)));
+    Object.values(ui.keys).forEach(k => k.classList.remove("next", "pulse"));
+    const want = bad !== -1 ? "Backspace" : target[typed.length];
+    const wk = ui.keys[want];
+    if (wk){ wk.classList.add("next"); if (bad !== -1) wk.classList.add("pulse"); }
+    ui.msg.textContent = bad !== -1 ? "Oops! Press Backspace ⌫ to erase the red letters."
+      : typed.length ? "Nice! Keep going. Follow the yellow key." : "Follow the yellow key!";
+    ui.msg.className = "tmsg" + (bad !== -1 ? " warn" : "");
+  }
+
+  function finishItem(){
+    busy = true; elapsed += performance.now() - startT; charsDone += target.length;
+    ui.msg.className = "tmsg"; ui.msg.textContent = "🎉 Great job!";
+    Object.values(ui.keys).forEach(k => k.classList.remove("next", "pulse"));
+    setTimeout(() => {
+      if (!alive()) return;
+      idx++;
+      if (idx < plan[lv].length) loadItem();
+      else if (lv < CFG.levels.length - 1) showBetween();
+      else showResults();
+    }, 800);
+  }
+
+  function showBetween(){
+    state = "between";
+    const done = CFG.levels[lv], next = CFG.levels[lv + 1];
+    const go = () => { lv++; idx = 0; showPlay(); };
+    onEnter = go;
+    show(h("div", {style:"text-align:center;padding:30px 0;display:flex;flex-direction:column;gap:10px;align-items:center"},
+      h("p", {class:"tbig"}, "🎉 " + done.name + " complete!"),
+      h("p", {style:"font-size:18px;margin:0"}, "Next: " + next.name),
+      h("p", {class:"soft"}, "Type " + next.count + " " + next.what + "."),
+      h("button", {class:"btn bigbtn", onclick:go}, "Start next level ▶"),
+      h("p", {class:"soft", style:"font-size:14px;margin:0"}, "(or press Enter)")));
+  }
+
+  function showResults(){
+    state = "done"; onEnter = null;
+    const acc = attempts ? correct / attempts * 100 : 0;
+    const mins = elapsed / 60000, wpm = mins > 0 ? (charsDone / 5) / mins : 0;
+    const accPart = clamp((acc - 50) / 50, 0, 1), spdPart = clamp(wpm / CFG.goalWpm, 0, 1);
+    const score = clamp(Math.round(1 + 9 * (0.6 * accPart + 0.4 * spdPart)), 1, 10);
+    const [emo, name] = CFG.scoreNames[score - 1];
+    show(h("div", {style:"text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center;padding:6px 0"},
+      h("p", {class:"big", style:"padding:0"}, "All levels complete!"),
+      h("div", {style:"font-size:72px;line-height:1"}, emo),
+      h("p", {class:"tbig"}, "Your score: " + score + " / 10"),
+      h("p", {style:"font-size:24px;font-weight:600;margin:0;color:var(--blue-3)"}, name),
+      h("div", {class:"tstats", style:"width:100%;max-width:420px;margin-top:8px"},
+        h("span", {}, "🎯 Accuracy: " + Math.round(acc) + "%"),
+        h("span", {}, "⚡ Speed: " + Math.round(wpm) + " words/min")),
+      h("p", {class:"soft", style:"font-size:14px;max-width:420px"}, "Your score comes from how accurately you typed (60%) and how fast you typed (40%)."),
+      h("div", {style:"display:flex;gap:10px;flex-wrap:wrap;justify-content:center"},
+        h("button", {class:"btn bigbtn", onclick:startGame}, "Play again ↻"),
+        h("button", {class:"btn light bigbtn", onclick:() => open.typing && open.typing.querySelector(".dot.x").click()}, "Finish"))));
+  }
+
+  /* ---- Keyboard listener ---- */
+  typingHandler = e => {
+    const win = open.typing;
+    if (!win || !alive()){ document.removeEventListener("keydown", typingHandler); if (typingSession === sid) typingHandler = null; return; }
+    if (win.hidden || win.style.zIndex != z) return;                       // only when this window is in front
+    if (e.target.closest && e.target.closest("input,textarea")) return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (state !== "play"){
+      if (e.key === "Enter" && onEnter && !e.repeat){ e.preventDefault(); onEnter(); }
+      return;
+    }
+    const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    if (ui.keys[k]) e.preventDefault();
+    if (busy) return;
+    if (ui.keys[k] && (!e.repeat || k === "Backspace")) flash(ui.keys[k], "down", 120);
+    if (k === "Backspace"){ if (typed){ typed = typed.slice(0, -1); update(); } return; }
+    if (e.repeat || k.length !== 1 || typed.length >= target.length) return;
+    if (startT === null) startT = performance.now();
+    const clean = target.startsWith(typed);
+    typed += k; attempts++;
+    if (clean && k === target[typed.length - 1]) correct++; else flash(ui.keys[k], "bad", 250);
+    update();
+    if (typed === target) finishItem();
+  };
+  document.addEventListener("keydown", typingHandler);
+
+  makeWindow("typing", "Typing practice", [root], {w:680, h:Math.min(660, desk.clientHeight - 24), center:true});
+  showLock();
+}
+
 /* ======== 7. BUILD THE DESKTOP (icons and the welcome window) ======== */
 const imgOf = e => h("span", {class:"img", "aria-hidden":"true"}, e);
 const addIcon = (cls, emoji, label, onclick) => desk.append(h("button", {class:cls, onclick, "aria-label":label}, imgOf(emoji), label));
@@ -553,12 +832,13 @@ addIcon("icon", "📓", "Investigation Journal", openJournal);
 
 // 📬 Send to teacher: opens your Google Form inside a window
 const SEND_FORM = "https://docs.google.com/forms/d/e/1FAIpQLSfCBtVAQn6WOL1j2Z15G1Uy09NFt2YpXUGGxBt77et6A-IUlQ/viewform";
-addIcon("icon", "📬", "Send to teacher", () => makeWindow("send", "Send to teacher", [
+addIcon("icon", "📬", "Send Journal", () => makeWindow("send", "Send your Journal", [
   h("div", {class:"holder"},
     h("p", {class:"big"}, "📬"),
-    h("p", {}, "Finished your journal? Click the button to open the form and send it to your teacher."),
+    h("p", {}, "Finished your journal? Click the button to open the form and send it to Mr.Lucas."),
     h("button", {class:"btn bigbtn", onclick:() => window.open(SEND_FORM, "_blank", "noopener")}, "Open the form ↗"))
 ], {viewer:true, w:420, h:300}));
+addIcon("icon typing", "⌨️", "Typing practice", openTyping);
 addIcon("icon corner left", "📝", "created by.txt", () => makeWindow("credits", "created by.txt",
   [h("pre", {class:"ascii"}, CREDITS_ART.join("\n")), ...CREDITS_TEXT.map(t => h("p", {class:"line"}, t))], {w:470}));
 addIcon("icon corner right", "🗑️", "Trash", () => {});
