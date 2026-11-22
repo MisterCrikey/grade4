@@ -143,6 +143,27 @@ iframe{flex:1;width:100%;min-height:0;border:0;background:#fff}
 @keyframes pulse{50%{transform:scale(1.1)}}
 .key.down{background:linear-gradient(var(--blue-1),var(--blue-3));color:#fff;transform:translateY(2px);box-shadow:none}
 .key.bad{background:#ff9a8f;border-color:#e5392b}
+/* ===== MOUSE PRACTICE ===== */
+.mcard{all:unset;cursor:pointer;box-sizing:border-box;width:220px;padding:14px;border-radius:16px;border:3px solid #9aa5b1;background:#f5f8fb;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:20px;font-weight:600}
+.mcard:hover,.mcard:focus-visible{border-color:var(--blue-3);background:#e8f3ff}
+.mcard svg{height:130px;width:auto}
+.mrow{display:flex;gap:16px;align-items:center;padding:10px 14px;border-radius:14px;background:#f5f8fb;border:1px solid #d3dbe3}
+.mrow svg{width:120px;height:auto;flex:none}
+.mrow b{font-size:19px}.mrow p{margin:4px 0 0}
+.mstage{position:relative;min-height:300px;flex:1;border-radius:14px;border:1px solid #b5c0cc;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:space-around;padding:14px;
+  background:linear-gradient(#bfe6ff 60%,#bfe3a5 60%)}
+.manimal{all:unset;cursor:pointer;font-size:88px;line-height:1;padding:8px 14px;border-radius:22px;user-select:none}
+.manimal:hover,.manimal:focus-visible{background:rgba(255,255,255,.45)}
+.mitems{display:flex;gap:28px;justify-content:center;align-items:center}
+.mitem{font-size:64px;line-height:1;padding:6px;touch-action:none;cursor:grab;user-select:none;position:relative}
+.mitem.held{z-index:30;cursor:grabbing;filter:drop-shadow(0 6px 6px rgba(0,0,0,.35))}
+.mitems.grid{display:grid;grid-template-columns:repeat(3,auto);gap:10px 40px}
+.mitems.grid.small{grid-template-columns:repeat(4,auto);gap:6px 30px}
+.mitems.grid.small .manimal{font-size:58px}
+.wiggle{animation:wig .45s 3}
+@keyframes wig{0%,100%{transform:rotate(0)}25%{transform:rotate(-14deg)}75%{transform:rotate(14deg)}}
+.mbubble{position:absolute;transform:translate(-50%,-100%);z-index:25;background:#fff;border:2px solid #6d7b8a;border-radius:14px;padding:4px 12px;font-weight:600;white-space:nowrap}
+.mmenu{position:absolute;z-index:40;display:flex;flex-direction:column;gap:5px;padding:7px;min-width:170px;background:#fff;border:1px solid #6d7b8a;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,.35)}
 /* ===== DOCK (minimized windows) AND PHONE SIZES ===== */
 #dock{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);display:flex;gap:10px;padding:10px 16px;max-width:94vw;overflow-x:auto;z-index:9998;
   border-radius:22px;border:1px solid rgba(255,255,255,.7);background:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.25));
@@ -197,11 +218,15 @@ iframe{flex:1;width:100%;min-height:0;border:0;background:#fff}
 const SITE = {
   name: "Grade 4’s Unit Article Hub",
   welcome: "Open a folder, then open a file. You can drag windows, resize them from the corner, and place them side by side.",
-  jail: "Unfortunately no squishies here. :( ",
-  // ⌨️ Typing practice settings. Use lowercase letters and spaces only in the words and phrases.
+  practicePassword: "sharingtheplanet",   // 🔒 the password students type to open the practice games
+  // 🔊 animal sounds: put your mp3 files in a folder called "sounds" and write the path, like bee: "sounds/bee.mp3". leave it empty and the animal just says "sound coming soon"
+  mouse: {
+    dragRounds: 8,    // how many "Feed the..." puzzles in level 1 (12 is the most)
+    sounds: {bee:"sounds/beebuzz.wav", lion:"sounds/liongrowl.wav", mouse:"sounds/mousesqueak.mp3", dog:"sounds/dogbark.wav", cat:"sounds/catmeow.mp3", giraffe:"sounds/giraffehum.mp3", monkey:"sounds/monkeychirp.mp3", chicken:"sounds/chicken.mp3", bunny:"sounds/bunnysqueal.mp3", panda:"sounds/panda.mp3", penguin:"sounds/penguinsquawk.mp3", horse:"sounds/horse.mp3"}
+  },
+  // ⌨️ typing practice: only lowercase letters and spaces in the words and phrases please, no punctuation
   typing: {
-    password: "sharingtheplanet",
-    goalWpm: 12,          // words per minute that earns the full speed points
+    goalWpm: 12,          // words per minute that gets full speed points (lower = easier)
     levels: [
       {name:"Level 1 · Words", what:"short words", count:5,
        items:["impact","change","climate","mangrove","beach","forest","roots","dumping","landfill","coral","ocean","desert","trash","planet","glacier","reef"]},
@@ -238,7 +263,6 @@ const SITE = {
       files: [
         ["Abrolhos, Brazil", "https://www1.folha.uol.com.br/internacional/en/scienceandhealth/2026/03/abrolhos-suffered-significant-coral-loss-in-less-than-two-decades.shtml", "📰"],
         ["Abrolhos, Brazil", "pages/abrolhos.html", "🔎"],
-        ["What is a Coral Reef?", "pages/dreef.html", "❓"],
         ["Coral Reefs, Atlantic Ocean", "videos/corals.mkv", "🎬"],
         ["Picture 1", "images/coral1.jpg", "🖼️", "Snorkeling over elkhorn coral (Acropora palmata), a large, branching coral species vital to Caribbean reef ecosystems."],
         ["Picture 2", "images/coral2.jpg", "🖼️", "A colorful underwater world of Indo-Pacific corals and reef life."],
@@ -592,10 +616,10 @@ function openJournal(){
 }
 
 
-/* ======== 6b. TYPING PRACTICE (password, hands guide, levels, score) ======== */
+/* ======== 6b. TYPING PRACTICE ======== */
 let typingHandler = null, typingSession = 0;
 
-// Picture of the hands on the home row (drawn as SVG)
+// draws the picture of the hands on the keyboard (it is an svg so there is no image file to upload)
 function handsSVG(){
   const P = 46, K = 40, X0 = 30;
   const rowsK = [["q","w","e","r","t","y","u","i","o","p"], ["a","s","d","f","g","h","j","k","l",";"], ["z","x","c","v","b","n","m",",","."]];
@@ -610,7 +634,7 @@ function handsSVG(){
   }));
   s += '<rect x="118" y="152" width="250" height="40" rx="7" fill="#fff" stroke="#9aa5b1" stroke-width="1.5"/>';
   s += '<text x="243" y="177" text-anchor="middle" font-size="13" font-weight="700" fill="#5b6877" font-family="monospace">SPACE</text>';
-  // fingers: [x of key centre, colour, base y]
+  // every finger is [where it sits, its color, where it ends]
   const fingers = [[61.5, FN.pinky, 250], [107.5, FN.ring, 250], [153.5, FN.middle, 250], [199.5, FN.index, 250],
                    [337.5, FN.index, 250], [383.5, FN.middle, 250], [429.5, FN.ring, 250], [475.5, FN.pinky, 250]];
   fingers.forEach(f => { s += '<line x1="' + f[0] + '" y1="92" x2="' + f[0] + '" y2="' + f[2] + '" stroke="' + f[1] + '" stroke-width="24" stroke-linecap="round" opacity=".88"/>'; });
@@ -639,25 +663,7 @@ function openTyping(){
   let plan = [], lv = 0, idx = 0, target = "", typed = "", startT = null;
   let elapsed = 0, attempts = 0, correct = 0, charsDone = 0;
 
-  /* ---- Screen 1: password ---- */
-  function showLock(){
-    state = "lock"; onEnter = null;
-    const input = h("input", {type:"password", "aria-label":"Password", placeholder:"Type the password", autocomplete:"off"});
-    const err = h("p", {class:"terr", "aria-live":"polite"});
-    const tryIt = () => {
-      if (input.value.trim() === CFG.password) showHands();
-      else { err.textContent = "That is not the right password, bruh."; input.value = ""; input.focus(); }
-    };
-    input.addEventListener("keydown", e => { if (e.key === "Enter"){ e.preventDefault(); tryIt(); } });
-    show(
-      h("div", {style:"text-align:center"}, h("p", {class:"big"}, "🔒 Typing practice is locked"), h("p", {class:"soft"}, "Type the password to open it.")),
-      h("div", {class:"jfield tlock"}, h("label", {}, "Password"), h("span", {class:"jhint"}, "Ask Mr.Lucas for the password."), input),
-      err,
-      h("div", {style:"text-align:center"}, h("button", {class:"btn bigbtn", onclick:tryIt}, "Unlock")));
-    setTimeout(() => input.focus(), 60);
-  }
-
-  /* ---- Screen 2: where do my hands go? (3 seconds, then "Are you ready?") ---- */
+  /* ---- first screen: where do my hands go? waits 3 seconds, then asks if they are ready ---- */
   function showHands(){
     state = "hands"; onEnter = null;
     const pic = h("div", {class:"thands"}); pic.innerHTML = handsSVG();
@@ -685,7 +691,7 @@ function openTyping(){
       h("p", {class:"soft", style:"font-size:14px"}, "(or press Enter)"));
   }
 
-  /* ---- Game ---- */
+  /* ---- the game itself ---- */
   function startGame(){
     plan = CFG.levels.map(L => shuffle(L.items).slice(0, L.count));
     lv = 0; idx = 0; elapsed = 0; attempts = 0; correct = 0; charsDone = 0;
@@ -725,7 +731,7 @@ function openTyping(){
   }
 
   function update(){
-    const bad = [...typed].findIndex((c, i) => c !== target[i]);   // -1 = no mistakes
+    const bad = [...typed].findIndex((c, i) => c !== target[i]);   // -1 means no mistakes yet
     ui.prompt.className = "tword" + (target.length > 16 ? " long" : "");
     ui.prompt.replaceChildren(...[...target].map((c, i) => {
       let cls = "";
@@ -790,11 +796,11 @@ function openTyping(){
         h("button", {class:"btn light bigbtn", onclick:() => open.typing && open.typing.querySelector(".dot.x").click()}, "Finish"))));
   }
 
-  /* ---- Keyboard listener ---- */
+  /* ---- listens to the keys they press ---- */
   typingHandler = e => {
     const win = open.typing;
     if (!win || !alive()){ document.removeEventListener("keydown", typingHandler); if (typingSession === sid) typingHandler = null; return; }
-    if (win.hidden || win.style.zIndex != z) return;                       // only when this window is in front
+    if (win.hidden || win.style.zIndex != z) return;                       // ignore the keys if another window is in front
     if (e.target.closest && e.target.closest("input,textarea")) return;
     if (e.ctrlKey || e.metaKey || e.altKey) return;
     if (state !== "play"){
@@ -817,29 +823,244 @@ function openTyping(){
   document.addEventListener("keydown", typingHandler);
 
   makeWindow("typing", "Typing practice", [root], {w:680, h:Math.min(660, desk.clientHeight - 24), center:true});
-  showLock();
+  showHands();
 }
 
-/* ======== 7. BUILD THE DESKTOP (icons and the welcome window) ======== */
+/* ======== 6c. THE LOCK ICON, then MOUSE PRACTICE ======== */
+let lockBtn = null;
+function openLock(){
+  if (open.lock){ makeWindow("lock", "Practice games", [], {}); return; }
+  const input = h("input", {type:"password", "aria-label":"Password", placeholder:"Type the password", autocomplete:"off"});
+  const err = h("p", {class:"terr", "aria-live":"polite"});
+  const tryIt = () => {
+    if (input.value.trim() === SITE.practicePassword){ open.lock.querySelector(".dot.x").click(); unlockGames(); }
+    else { err.textContent = "That is not the right password. Try again or ask Mr.Lucas."; input.value = ""; input.focus(); }
+  };
+  input.addEventListener("keydown", e => { if (e.key === "Enter"){ e.preventDefault(); tryIt(); } });
+  makeWindow("lock", "Practice games", [
+    h("p", {class:"big"}, "🔒 Practice games are locked"),
+    h("div", {class:"jfield"}, h("label", {}, "Password"), h("span", {class:"jhint"}, "Ask Mr.Lucas for the password."), input),
+    err, h("div", {style:"text-align:center"}, h("button", {class:"btn bigbtn", onclick:tryIt}, "Unlock"))], {w:440, center:true});
+  setTimeout(() => input.focus(), 60);
+}
+function unlockGames(){            // the lock goes away and both games show up in the same row
+  if (lockBtn){ lockBtn.remove(); lockBtn = null; }
+  addIcon("icon typing", "⌨️", "Typing practice", openTyping);
+  addIcon("icon", "🖱️", "Mouse practice", openMouse);
+}
+
+// every animal and the food it likes: [animal emoji, animal name, food emoji, food name]
+// want another animal? just add a line here (and its sound in SITE.mouse.sounds at the top)
+const PAIRS = [
+  ["🐝","bee","🍯","honey"], ["🦁","lion","🍖","meat"], ["🐭","mouse","🧀","cheese"], ["🐶","dog","🦴","bone"], ["🐱","cat","🐟","fish"],
+  ["🦒","giraffe","🍃","leaves"], ["🐒","monkey","🍌","banana"], ["🐔","chicken","🌽","corn"], ["🐰","bunny","🥕","carrot"],
+  ["🐼","panda","🥬","leafy green"], ["🐧","penguin","🐟","fish"], ["🐴","horse","🍎","apples"]
+];
+const M_LEVELS = ["Level 1 · Drag and drop", "Level 2 · Click and double-click", "Level 3 · The options menu", "Level 4 · Find the animal"];
+const M_ACTIONS = [["drag"], ["click", "dbl"], ["menu"], ["menu"]];
+const M_TITLE = {drag:"Drag and drop", click:"Click", dbl:"Double-click", menu:"Options menu (right-click)"};
+const M_HOW = {
+  drag:  {mouse:"Press and HOLD the left button on the item. Move the mouse. Let go to drop it.", pad:"Press and HOLD the pad down with one finger. Slide with another finger. Let go to drop it."},
+  click: {mouse:"Press the left button one time.", pad:"Tap the pad one time with one finger."},
+  dbl:   {mouse:"Press the left button two times, very fast.", pad:"Tap the pad two times, very fast."},
+  menu:  {mouse:"Press the RIGHT button one time. A menu appears!", pad:"Tap the pad with TWO fingers at the same time (or press the bottom-right corner). A menu appears!"}
+};
+const M_HIT = {drag:"left", click:"left", dbl:"left", menu:"right"};
+
+function deviceSVG(dev, act, x2){
+  const on = "#ffcf3f", off = "#e6ebf0", tag = x2 ? '<text x="150" y="30" font-size="30" font-weight="700" fill="#e5392b" font-family="sans-serif">2×</text>' : "";
+  if (dev === "mouse"){
+    const L = act === "left" ? on : off, R = act === "right" ? on : off;
+    return '<svg viewBox="0 0 190 160" role="img" aria-label="Computer mouse"><path d="M25 45 A35 35 0 0 1 58 10 L58 72 L25 72 Z" fill="' + L + '" stroke="#6d7b8a" stroke-width="3"/>' +
+      '<path d="M62 10 A35 35 0 0 1 95 45 L95 72 L62 72 Z" fill="' + R + '" stroke="#6d7b8a" stroke-width="3"/>' +
+      '<path d="M25 72 H95 V115 A35 35 0 0 1 60 150 A35 35 0 0 1 25 115 Z" fill="#f4f4f4" stroke="#6d7b8a" stroke-width="3"/>' +
+      '<rect x="57" y="26" width="6" height="22" rx="3" fill="#9aa5b1"/><text x="41" y="64" font-size="10" text-anchor="middle" font-family="sans-serif">LEFT</text>' +
+      '<text x="79" y="64" font-size="10" text-anchor="middle" font-family="sans-serif">RIGHT</text>' + tag + '</svg>';
+  }
+  const fing = c => '<circle cx="' + c + '" cy="103" r="10" fill="#ff7aa5" stroke="#c9396b" stroke-width="2"/>';
+  return '<svg viewBox="0 0 190 150" role="img" aria-label="Laptop touchpad"><rect x="10" y="8" width="170" height="134" rx="12" fill="#cfd8e3" stroke="#6d7b8a" stroke-width="3"/>' +
+    '<rect x="26" y="18" width="138" height="44" rx="5" fill="#fff" stroke="#9aa5b1"/><rect x="55" y="74" width="80" height="54" rx="8" fill="' + (act === "none" ? off : "#fff6cf") + '" stroke="#6d7b8a" stroke-width="2"/>' +
+    (act === "left" ? fing(95) : act === "right" ? fing(83) + fing(107) : "") + tag + '</svg>';
+}
+const svgBox = html => { const d = h("div", {}); d.innerHTML = html; return d.firstChild; };
+
+function openMouse(){
+  if (open.mouse){ makeWindow("mouse", "Mouse practice", [], {}); return; }
+  const root = h("div", {style:"display:flex;flex-direction:column;gap:12px"});
+  const show = (...n) => root.replaceChildren(...n);
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  let dev = "pad", lv = 0, mi = 0, missions = [], locked = false, menuEl = null, msgEl = null;
+  // grabs n animals for the wrong answers, skipping any that eat the same food as p
+  const wrongOnes = (p, n) => { const seen = new Set([p[2]]); return shuffle(PAIRS).filter(x => !seen.has(x[2]) && seen.add(x[2])).slice(0, n); };
+
+  /* ---- first screen: mouse or touchpad? ---- */
+  function showStart(){
+    const card = (d, label) => h("button", {class:"mcard", onclick:() => { dev = d; startGame(); }}, svgBox(deviceSVG(d, "none")), label);
+    show(h("p", {class:"big"}, "🖱️ Mouse practice"),
+      h("p", {style:"text-align:center;font-size:20px;margin:0"}, "What are you using to move the pointer?"),
+      h("div", {style:"display:flex;gap:16px;justify-content:center;flex-wrap:wrap"}, card("pad", "A touchpad"), card("mouse", "A mouse")),
+      h("p", {class:"soft", style:"text-align:center"}, "Click the picture that looks like yours."));
+  }
+  function startGame(){
+    const P = shuffle(PAIRS);
+    missions = [P.slice(0, SITE.mouse.dragRounds || 8).map(p => ({type:"drag", p})),
+                [0, 1, 2, 3].map(i => ({type:i % 2 ? "dbl" : "click", p:P[i]})),
+                ["Make sound", "Wiggle", "Exit"].map((c, i) => ({type:"menu", p:P[i], choice:c})),
+                [0, 1, 2, 3].map(i => ({type:"find", p:P[i + 4], choice:i % 2 ? "Wiggle" : "Make sound"}))];
+    lv = 0; mi = 0; showIntro();
+  }
+
+  /* ---- before each level: explains how it works ---- */
+  function showIntro(){
+    show(h("p", {class:"big", style:"padding:0"}, M_LEVELS[lv]), h("p", {class:"soft", style:"text-align:center;margin:0"}, "Here is how it works:"),
+      ...M_ACTIONS[lv].map(a => h("div", {class:"mrow"}, svgBox(deviceSVG(dev, dev === "pad" && a === "menu" ? "right" : M_HIT[a], a === "dbl")),
+        h("div", {}, h("b", {}, (dev === "pad" && a === "menu") ? "Options menu (two-finger tap)" : M_TITLE[a]), h("p", {}, M_HOW[a][dev])))),
+      h("div", {style:"text-align:center"}, h("button", {class:"btn bigbtn", onclick:showMission}, "Got it, let’s play! ▶")));
+  }
+
+  /* ---- game area ---- */
+  const animal = p => h("button", {class:"manimal", "aria-label":p[1]}, p[0]);
+  function bubble(stage, el, text){
+    const r = el.getBoundingClientRect(), s = stage.getBoundingClientRect(), b = h("div", {class:"mbubble"}, text);
+    b.style.left = (r.left - s.left + r.width / 2) + "px"; b.style.top = (r.top - s.top - 4) + "px";
+    stage.append(b); setTimeout(() => b.remove(), 1600);
+  }
+  const wiggle = el => { el.classList.remove("wiggle"); void el.offsetWidth; el.classList.add("wiggle"); };
+  function sound(stage, el, p){
+    const src = (SITE.mouse.sounds || {})[p[1]];
+    if (src){ const a = new Audio(src); a.play().catch(() => {}); bubble(stage, el, "🔊"); }
+    else bubble(stage, el, "🔊 (sound coming soon)");
+  }
+  function closeMenu(){ if (menuEl){ menuEl.remove(); menuEl = null; } }
+  function win(text){
+    locked = true; msgEl.className = "tmsg"; msgEl.textContent = "🎉 " + text;
+    setTimeout(() => {
+      if (!open.mouse) return;
+      mi++;
+      if (mi < missions[lv].length) showMission();
+      else if (lv < M_LEVELS.length - 1){ lv++; mi = 0; showIntro(); } else showDone();
+    }, 1000);
+  }
+  const oops = text => { msgEl.className = "tmsg warn"; msgEl.textContent = text; };
+
+  // the rightclick menu on an animal (m is the current puzzle, or nothing when they are just playing)
+  function attachMenu(el, p, stage, m){
+    el.addEventListener("contextmenu", e => {
+      e.preventDefault(); if (locked) return; closeMenu();
+      const r = stage.getBoundingClientRect(), pick = (choice, fn) => () => {
+        closeMenu(); fn();
+        if (m && (m.type === "menu" || m.type === "find")){
+          if (p === m.p && choice === m.choice) win("You chose “" + choice + "”!");
+          else if (p !== m.p) oops("That is the " + p[1] + ". Find the " + m.p[1] + "!");
+          else if (choice !== "Exit") oops("Almost! Choose “" + m.choice + "”.");
+        }
+      };
+      const opt = (label, fn) => h("button", {class:"btn light", role:"menuitem", onclick:fn}, label);
+      menuEl = h("div", {class:"mmenu", role:"menu"},
+        opt("🔊 Make sound", pick("Make sound", () => sound(stage, el, p))),
+        opt("〰️ Wiggle", pick("Wiggle", () => wiggle(el))),
+        opt("✖ Exit", pick("Exit", () => {})));
+      menuEl.style.left = clamp(e.clientX - r.left, 4, r.width - 180) + "px";
+      menuEl.style.top = clamp(e.clientY - r.top, 4, r.height - 150) + "px";
+      stage.append(menuEl);
+    });
+  }
+
+  // lets you drag a food onto an animal
+  function attachDrag(item, target, ok, stage, p, q){
+    let d = null;
+    const back = () => { item.style.transition = "transform .3s"; item.style.transform = ""; item.classList.remove("held"); };
+    item.addEventListener("pointerdown", e => { if (locked) return; item.setPointerCapture(e.pointerId); d = {x:e.clientX, y:e.clientY}; item.style.transition = "none"; item.classList.add("held"); });
+    item.addEventListener("pointermove", e => { if (d) item.style.transform = "translate(" + (e.clientX - d.x) + "px," + (e.clientY - d.y) + "px)"; });
+    item.addEventListener("pointercancel", () => { d = null; back(); });
+    item.addEventListener("pointerup", e => {
+      if (!d) return; d = null;
+      const r = target.getBoundingClientRect();
+      const hit = e.clientX > r.left - 12 && e.clientX < r.right + 12 && e.clientY > r.top - 12 && e.clientY < r.bottom + 12;
+      if (hit && ok){ item.remove(); wiggle(target); bubble(stage, target, "😋 Yum!"); win("The " + p[1] + " loves the " + p[3] + "!"); }
+      else { back(); oops(hit ? "The " + p[1] + " does not want the " + q + ". Try another one!" : "Drop it on the " + p[1] + "!"); }
+    });
+  }
+
+  /* ---- one puzzle ---- */
+  function showMission(){
+    const m = missions[lv][mi], p = m.p; locked = false; menuEl = null;
+    const stage = h("div", {class:"mstage"});
+    stage.addEventListener("pointerdown", e => { if (menuEl && !menuEl.contains(e.target)) closeMenu(); });
+    msgEl = h("p", {class:"tmsg"}, M_HOW[m.type === "find" ? "menu" : m.type][dev]);   // level 4 uses the same right-click help
+    const task = {drag:"Feed the " + p[1] + "!", find:"Make the " + p[1] + (m.choice === "Wiggle" ? " wiggle!" : " make a sound!"), click:"Click the " + p[0] + " " + p[1] + "!",
+                  dbl:"Double-click the " + p[0] + " " + p[1] + "!", menu:"Open the " + p[1] + "’s menu, then choose “" + m.choice + "”!"}[m.type];
+    show(h("div", {class:"thead"}, h("span", {}, M_LEVELS[lv]), h("span", {}, (mi + 1) + " of " + missions[lv].length)),
+      h("p", {class:"tbig", style:"font-size:23px"}, task), stage, msgEl);
+
+    if (m.type === "drag"){
+      const a = animal(p); attachMenu(a, p, stage, m);
+      const items = shuffle([p, ...wrongOnes(p, 2)]).map(x => {
+        const it = h("div", {class:"mitem", draggable:"false", "aria-label":x[3]}, x[2]);
+        attachDrag(it, a, x[2] === p[2], stage, p, x[3]); return it;
+      });
+      stage.append(a, h("div", {class:"mitems"}, items));
+    } else if (m.type === "find"){
+      const six = shuffle([p, ...shuffle(PAIRS.filter(x => x !== p)).slice(0, 5)]);
+      stage.append(h("div", {class:"mitems grid"}, six.map(x => { const a = animal(x); attachMenu(a, x, stage, m); return a; })));
+    } else if (m.type === "menu"){
+      const a = animal(p); attachMenu(a, p, stage, m); stage.append(a);
+    } else {
+      const row = h("div", {class:"mitems"}, shuffle([p, ...shuffle(PAIRS.filter(x => x !== p)).slice(0, 2)]).map(x => {
+        const a = animal(x); attachMenu(a, x, stage, m);
+        a.addEventListener("click", e => {
+          if (locked || e.detail > 1) return;
+          if (x !== p) oops("That is the " + x[1] + ". Find the " + p[1] + "!");
+          else if (m.type === "click") win("Yes! That is the " + p[1] + "!");
+          else oops("Almost! Press two times, very fast.");
+        });
+        a.addEventListener("dblclick", () => {
+          if (locked || m.type !== "dbl") return;
+          if (x === p) win("Double-click! Great!"); else oops("That is the " + x[1] + ". Find the " + p[1] + "!");
+        });
+        return a;
+      }));
+      stage.append(row);
+    }
+  }
+
+  /* ---- all done! they can play with the animals ---- */
+  function showDone(){
+    locked = false; menuEl = null;
+    const stage = h("div", {class:"mstage"});
+    stage.addEventListener("pointerdown", e => { if (menuEl && !menuEl.contains(e.target)) closeMenu(); });
+    stage.append(h("div", {class:"mitems grid small"}, PAIRS.map(p => { const a = animal(p); attachMenu(a, p, stage, null); return a; })));
+    show(h("p", {class:"big", style:"padding:0"}, "🏆 You did it! You are a Mouse Master!"),
+      h("p", {class:"soft", style:"text-align:center;margin:0"}, "Play with the animals: " + M_HOW.menu[dev]), stage,
+      h("div", {style:"display:flex;gap:10px;justify-content:center;flex-wrap:wrap"},
+        h("button", {class:"btn bigbtn", onclick:startGame}, "Play again ↻"),
+        h("button", {class:"btn light bigbtn", onclick:() => open.mouse && open.mouse.querySelector(".dot.x").click()}, "Finish")));
+  }
+
+  makeWindow("mouse", "Mouse practice", [root], {w:720, h:Math.min(680, desk.clientHeight - 24), center:true});
+  showStart();
+}
+
+/* ======== 7. THE DESKTOP (icons and the welcome window) ======== */
 const imgOf = e => h("span", {class:"img", "aria-hidden":"true"}, e);
-const addIcon = (cls, emoji, label, onclick) => desk.append(h("button", {class:cls, onclick, "aria-label":label}, imgOf(emoji), label));
+const addIcon = (cls, emoji, label, onclick) => { const b = h("button", {class:cls, onclick, "aria-label":label}, imgOf(emoji), label); desk.append(b); return b; };
 
 // One icon for each folder in the SITE list
 SITE.folders.slice(0, 10).forEach((f, i) => addIcon("icon", f.icon, f.name, () => openFolder(f, i)));
 
 // Fixed icons
-addIcon("icon", "🔒", "Squishy jail", () => makeWindow("jail", "Squishy jail", h("p", {class:"big"}, SITE.jail), {w:380}));
 addIcon("icon", "📓", "Investigation Journal", openJournal);
 
-// 📬 Send to teacher: opens your Google Form inside a window
+// Opens the Google Form inside a window
 const SEND_FORM = "https://docs.google.com/forms/d/e/1FAIpQLSfCBtVAQn6WOL1j2Z15G1Uy09NFt2YpXUGGxBt77et6A-IUlQ/viewform";
-addIcon("icon", "📬", "Send Journal", () => makeWindow("send", "Send your Journal", [
+addIcon("icon", "📬", "Send to Lead Learners", () => makeWindow("send", "Send to Lead Learners", [
   h("div", {class:"holder"},
     h("p", {class:"big"}, "📬"),
-    h("p", {}, "Finished your journal? Click the button to open the form and send it to Mr.Lucas."),
+    h("p", {}, "Finished your journal? Click the button to open the form and send it to your Lead Learners."),
     h("button", {class:"btn bigbtn", onclick:() => window.open(SEND_FORM, "_blank", "noopener")}, "Open the form ↗"))
 ], {viewer:true, w:420, h:300}));
-addIcon("icon typing", "⌨️", "Typing practice", openTyping);
+lockBtn = addIcon("icon typing", "🔒", "Practice games", openLock);
 addIcon("icon corner left", "📝", "created by.txt", () => makeWindow("credits", "created by.txt",
   [h("pre", {class:"ascii"}, CREDITS_ART.join("\n")), ...CREDITS_TEXT.map(t => h("p", {class:"line"}, t))], {w:470}));
 addIcon("icon corner right", "🗑️", "Trash", () => {});
