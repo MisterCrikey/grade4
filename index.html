@@ -263,7 +263,7 @@ const SITE = {
       files: [
         ["Abrolhos, Brazil", "pages/folha3.html", "📰"],
         ["Abrolhos, Brazil", "pages/abrolhos.html", "🔎"],
-        ["What is a Coral Reef?", "pages/dreef.html", "❓"],
+        ["Coral Reefs and the People Who Changed Them", "pages/dreef.html", "❓"],
         ["Coral Reefs, Atlantic Ocean", "videos/corals.mkv", "🎬"],
         ["Picture 1", "images/coral1.jpg", "🖼️", "Snorkeling over elkhorn coral (Acropora palmata), a large, branching coral species vital to Caribbean reef ecosystems."],
         ["Picture 2", "images/coral2.jpg", "🖼️", "A colorful underwater world of Indo-Pacific corals and reef life."],
@@ -277,7 +277,7 @@ const SITE = {
       files: [
         ["Amazon Forest, Brazil", "pages/bbcamazon3.html", "📰"],
         ["Amazon Forest, Brazil", "pages/amazon.html", "🔎"],
-        ["What is the Amazon?", "pages/damazon.html", "❓"],
+        ["The Amazon Has a Long History", "pages/damazon.html", "❓"],
         ["Amazon Forest, Brazil", "videos/amazon.mkv", "🎬"],
         ["Picture 1", "images/amazon1.jpg", "🖼️", "Flooded igapó forest in the Brazilian Amazon, where rising river waters mirror the lush canopy above."],
         ["Picture 2", "images/amazon2.jpg", "🖼️", "Sunlight filters through the dense green canopy of a flooded igapó forest, casting mirror-like reflections on the calm dark waters."],
@@ -291,7 +291,7 @@ const SITE = {
       files: [
         ["Atacama Desert, Chile", "pages/npr3.html", "📰"],
         ["Atacama Desert, Chile", "pages/atacama.html", "🔎"],
-        ["What is the Atacama?", "pages/datacama.html", "❓"],
+        ["A Super Dry Place", "pages/datacama.html", "❓"],
         ["Atacama Desert, Chile", "videos/desert.mkv", "🎬"],
         ["Picture 1", "images/desert1.avif", "🖼️", "The sun shines on the rocky ridges of the Valley of the Moon in Chile's Atacama Desert."],
         ["Picture 2", "images/desert2.webp", "🖼️", "Vicuñas produce the finest wool in the world, which once led to them being hunted nearly to extinction before strict conservation laws helped their populations recover."],
@@ -305,7 +305,7 @@ const SITE = {
       files: [
         ["Patagonia, Argentina", "pages/bbcpata3.html", "📰"],
         ["Patagonia, Argentina", "pages/patagonia.html", "🔎"],
-        ["What is a Mangrove?", "pages/dpatagonia.html", "❓"],
+        ["Rivers of Ice: The Glaciers of Patagonia", "pages/dpatagonia.html", "❓"],
         ["Patagonia Glacier, Argentina", "videos/glacier.mkv", "🎬"],
         ["Picture 1", "images/glacier1.webp", "🖼️", "Jagged spires of ancient blue ice rise from the waters of Lago Grey at the terminus of Grey Glacier, backed by the snow-dusted peaks of the southern Andes in Chilean Patagonia."],
         ["Picture 2", "images/glacier2.jpg", "🖼️", "For nearly 100 years, Perito Moreno was famous as one of the few glaciers in the world remaining in equilibrium."],
@@ -319,7 +319,7 @@ const SITE = {
       files: [
         ["Bertioga, Brazil", "pages/wwf3.html", "📰"],
         ["Bertioga, Brazil", "pages/restingas.html", "🔎"],
-        ["What is a Mangrove?", "pages/dbeach.html", "❓"],
+        ["The Story of Bertioga", "pages/dbeach.html", "❓"],
         ["Rio de Janeiro, Brazil", "videos/beaches.mkv", "🎬"],
         ["Picture 1", "images/beach1.jpg", "🖼️", "At least for now, the area of influence of the Abrolhos coral bank, on the coast of Bahia, should remain free from new areas for oil and gas exploration."],
         ["Picture 2", "images/beach2.webp", "🖼️", "Shades of blue at Abrolhos Marine National Park."],
@@ -503,11 +503,11 @@ $("#closeall").addEventListener("click", () => { Object.values(open).forEach(w =
 
 /* ======== 6. INVESTIGATION JOURNAL ======== */
 const JOURNAL_FIELDS = [
-  ["🔎", "What?", "What happened? Tell it in your own words."],
+  ["🔎", "Topic and What Happened?", "Which is your topic? What happened? Tell it in your own words."],
   ["📅", "When?", "When did it happen?"],
   ["📍", "Where?", "Where did it happen?"],
   ["❓", "Why?", "Why did it happen?"],
-  ["💡", "Solution", "Could the problem be fixed?"],
+  ["💡", "Solution", "Is there any way to solve this problem?"],
   ["📰", "Source", "Where did you read it? (website or newspaper name)"]
 ];
 let journal = [{}], jpage = 0, jname = "";
