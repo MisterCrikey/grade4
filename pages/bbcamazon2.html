@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BBC News – Grade 4 Environmental Investigation Desk: Brazil’s Amazon Forest Loss</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#faf9f6;--ink:#1a1a1a;--muted:#5a5a55;--rule:#d9d6cc;--accent:#8a1c1c;--fs:19px;--lh:1.7}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Source Sans 3",Georgia,"Segoe UI",system-ui,sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.masthead{text-align:center;padding:22px 0 14px;border-bottom:4px double var(--ink)}
+.masthead h1{font-family:"Playfair Display",Georgia,serif;font-weight:800;font-size:clamp(2.2rem,6vw,3.6rem);margin:0;letter-spacing:.02em}
+.masthead p{margin:4px 0 0;font-style:italic;color:var(--muted);font-size:1.05rem}
+.dateline{border-bottom:1px solid var(--rule);font-size:.85rem;color:var(--muted);padding:6px 0;text-transform:uppercase;letter-spacing:.08em;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.toolbar{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--rule);box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.toolbar .wrap{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;padding-top:8px;padding-bottom:8px}
+.grp{display:flex;align-items:center;gap:6px}
+.grp .lbl{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.toolbar button{font:600 .95rem "Source Sans 3",system-ui,sans-serif;border:1px solid #888;background:#fff;color:var(--ink);padding:5px 12px;border-radius:4px;cursor:pointer}
+.toolbar button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.toolbar button:hover{background:#eee}.toolbar button[aria-pressed="true"]:hover{background:#333}
+.sw{width:26px;height:26px;padding:0!important;border-radius:50%!important;border:2px solid #777!important}
+.sw[aria-checked="true"]{outline:2px solid var(--ink);outline-offset:2px}
+#status{font-size:.9rem;color:var(--muted);font-style:italic;margin-left:auto}
+:focus-visible{outline:3px solid #1d4ed8;outline-offset:2px}
+.layout{display:grid;grid-template-columns:7fr 3fr;gap:0;padding:26px 0 10px}
+.main{padding-right:28px}
+aside{border-left:1px solid var(--rule);padding-left:24px}
+.kicker{font:700 .85rem "Source Sans 3",sans-serif;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin:0 0 6px}
+h2.headline{font-family:"Playfair Display",Georgia,serif;font-weight:800;font-size:clamp(1.9rem,4.4vw,2.9rem);line-height:1.12;margin:0 0 10px}
+.sub{font-family:"Playfair Display",Georgia,serif;font-style:italic;font-size:1.25rem;line-height:1.4;color:#333;margin:0 0 16px}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ink);border-bottom:1px solid var(--rule);margin-bottom:22px}
+.meta div{padding:8px 10px;border-right:1px solid var(--rule);font-size:.92rem}
+.meta div:last-child{border-right:0}
+.meta b{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+#articleBody{font-size:var(--fs);line-height:var(--lh);transition:font-size .25s ease,line-height .25s ease}
+#articleBody.marker-on{cursor:text}
+#articleBody p{margin:0 0 1em}
+.lead{font-weight:700}
+.lead::first-letter{font-family:"Playfair Display",Georgia,serif;float:left;font-size:3.6em;line-height:.85;padding:.06em .1em 0 0;font-weight:800}
+#articleBody h3{font-family:"Playfair Display",Georgia,serif;font-size:1.45em;line-height:1.25;margin:1.6em 0 .5em;padding-top:.6em;border-top:1px solid var(--ink)}
+#articleBody ul{padding-left:1.2em;margin:0 0 1em}#articleBody li{margin-bottom:.3em}
+.vocab{font-weight:700}
+blockquote{margin:1.2em 0;padding:.2em 0 .2em 1em;border-left:4px solid var(--accent);font-family:"Playfair Display",Georgia,serif;font-style:italic;font-size:1.15em;line-height:1.45}
+blockquote cite{display:block;margin-top:.4em;font:normal .8em "Source Sans 3",sans-serif;color:var(--muted)}
+mark{background:#fef08a;color:inherit;cursor:pointer;padding:0 1px}
+.note{background:#fff7e0;border:1px solid #e0c36a;border-left:5px solid #c9962b;padding:10px 14px;margin:1em 0;font-size:.92em;line-height:1.55}
+.note h4{margin:0 0 4px;font:700 .85em "Source Sans 3",sans-serif;text-transform:uppercase;letter-spacing:.08em}
+.note p{margin:0 0 .5em!important}.note p:last-child{margin:0!important}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:1em 0}
+.two>div{border:1px solid var(--ink);padding:10px 14px}
+.two h4{margin:0 0 6px;font-family:"Playfair Display",Georgia,serif;font-size:1.1em}
+.two .yes{background:#f1f8f1}.two .no{background:#f7f2f2}
+.box{border-top:3px double var(--ink);padding:10px 0 18px;margin-bottom:12px}
+.box h3{font-family:"Playfair Display",Georgia,serif;margin:0 0 10px;font-size:1.25rem}
+.stat{display:flex;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--rule)}
+.stat b{font-family:"Playfair Display",Georgia,serif;font-size:1.9rem;line-height:1;min-width:6.2rem;color:var(--accent)}
+.stat span{font-size:.95rem;line-height:1.35}
+dl{margin:0}dt{font-weight:700;margin-top:10px}dd{margin:2px 0 0;font-size:.95rem;line-height:1.45}
+footer{border-top:4px double var(--ink);margin-top:20px;padding:16px 0 40px;font-size:.88rem;color:var(--muted);line-height:1.6}
+footer a{color:#1d4ed8}
+@media(max-width:820px){.layout{grid-template-columns:1fr}.main{padding-right:0}aside{border-left:0;border-top:1px solid var(--rule);padding:20px 0 0;margin-top:20px}.meta{grid-template-columns:1fr 1fr}.meta div:nth-child(2){border-right:0}.meta div:nth-child(-n+2){border-bottom:1px solid var(--rule)}.two{grid-template-columns:1fr}#status{margin-left:0;width:100%}}
+@media(prefers-reduced-motion:reduce){#articleBody{transition:none}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div class="masthead"><h1>BBC News</h1><p>Grade 4 Environmental Investigation Desk</p></div>
+  <div class="dateline"><span id="today">Today</span><span>Latin America · Environment</span></div>
+</header>
+
+<div class="toolbar" role="toolbar" aria-label="Reading tools"><div class="wrap">
+  <div class="grp" role="group" aria-label="Text size"><span class="lbl">Text</span>
+    <button type="button" id="fsS" data-size="16" data-lh="1.65" aria-pressed="false" aria-label="Smaller text">A-</button>
+    <button type="button" id="fsM" data-size="19" data-lh="1.7" aria-pressed="true" aria-label="Default text size">A</button>
+    <button type="button" id="fsL" data-size="22" data-lh="1.75" aria-pressed="false" aria-label="Larger text">A+</button></div>
+  <div class="grp" role="group" aria-label="Highlighter"><span class="lbl">Highlighter</span>
+    <button type="button" id="markerBtn" aria-pressed="false" aria-label="Toggle highlighter marker">Marker: Off</button>
+    <div class="grp" role="radiogroup" aria-label="Highlight color">
+      <button type="button" class="sw" role="radio" aria-checked="true" aria-label="Yellow highlighter" data-c="#fef08a" style="background:#fef08a"></button>
+      <button type="button" class="sw" role="radio" aria-checked="false" aria-label="Mint green highlighter" data-c="#bbf7d0" style="background:#bbf7d0"></button>
+      <button type="button" class="sw" role="radio" aria-checked="false" aria-label="Soft pink highlighter" data-c="#fbcfe8" style="background:#fbcfe8"></button></div>
+    <button type="button" id="clearBtn" aria-label="Clear all highlights">Clear All Highlights</button></div>
+  <div id="status" role="status" aria-live="polite">Marker is off. Turn it on to highlight.</div>
+</div></div>
+
+<div class="wrap layout">
+<main class="main">
+  <p class="kicker">Brazil · Amazon Rainforest</p>
+  <h2 class="headline">Fewer Trees Cut Down: Brazil Reports a Record Fall in Amazon Forest Loss</h2>
+  <p class="sub">The Amazon is the world’s largest rainforest. Brazil’s government says forest clearing dropped sharply, just before an important election.</p>
+  <div class="meta">
+    <div><b>Where</b>Brazil (Amazon rainforest and Cerrado savanna)</div>
+    <div><b>When</b>17 October 2026</div>
+    <div><b>Author</b>Ione Wells and Joel Guinto</div>
+    <div><b>Source</b>BBC News (Latin America)</div>
+  </div>
+
+  <div id="articleBody">
+    <p class="lead">BRAZIL — Brazil’s government says less forest is being cut down in the Amazon. Satellite data shows that in the year to July 2026, the rate of forest loss fell by 41.8%. That is the biggest drop since records began in 1988. The news comes before a presidential election run-off, where the future of the rainforest is a key issue.</p>
+
+    <h3>Past &amp; Present: Comparing the Ecosystem</h3>
+    <p>The Amazon is the world’s largest rainforest. Sixty percent of it is in Brazil. Tropical rainforests like the Amazon are home to millions of <strong class="vocab">species</strong>. A species is one kind of living thing. The article also names the Cerrado, which is Brazil’s savanna region. A savanna is a grassy land with few trees.</p>
+    <blockquote>“Absolutely stratospheric.”<cite>Joao Paulo Capobianco, Brazil’s Environment Minister, on the fall in forest loss</cite></blockquote>
+    <p><b>Then:</b> From 2019 to 2022, Jair Bolsonaro was president. The article says the Amazon lost nearly 60% more forest than in the four years before. This comes from official data reported by the news agency AFP.</p>
+    <p><b>Then, again:</b> Luiz Inácio Lula da Silva became president three years ago. In his first year, <strong class="vocab">deforestation</strong> fell to a six-year low. Deforestation means cutting down or clearing forest.</p>
+    <p><b>Now:</b> In the year to July 2026, forest loss fell 41.8% in the Amazon. In the Cerrado, it fell 23.8%.</p>
+    <div class="note"><h4>Investigator’s note</h4>
+      <p>This article does not name any Amazon species. It does not say how much forest is left. It only says millions of species live in tropical rainforests.</p>
+      <p><b>Research question:</b> Name three animals that live in the Amazon rainforest. Use another source.</p></div>
+
+    <h3>Human Impact: What Changed and Why?</h3>
+    <p>The article names actions by people that harmed the forest:</p>
+    <ul>
+      <li><b>Land clearing.</b> The article says tropical rainforests have come under growing pressure from decades of deliberate land clearance. A pressure is something that pushes against a living place. Here, people cleared land for farming and logging.</li>
+      <li><b>Mining.</b> The article says Jair Bolsonaro promoted mining in indigenous lands in the Amazon.</li>
+      <li><b>Fewer protections.</b> Forest clearing soared while resources to protect the forest were cut.</li>
+    </ul>
+    <p>Then policy changed. The article says Lula reversed his predecessor’s policies. He tightened environmental monitoring. He also tightened penalties for illegal logging.</p>
+    <div class="note"><h4>Investigator’s note</h4>
+      <p>The article does not say how many people live in the Amazon. It does not explain how farming, logging or mining each change the forest. It also does not say who clears the land illegally.</p>
+      <p><b>Research question:</b> Why do people clear forest for farming? Use another source.</p></div>
+
+    <h3>Climate Change &amp; Consequences</h3>
+    <p>The article says the Amazon is a crucial buffer in the world’s fight against climate change. A buffer is something that softens a problem. A healthy rainforest absorbs vast amounts of <strong class="vocab">carbon dioxide</strong>, a gas that warms the planet. The article says this helps keep the Earth cool.</p>
+    <p>The article also says rainforests are under pressure from climate change. Scientists warn that climate change can create conditions for wildfires.</p>
+    <blockquote>“With political will, it is possible to curb deforestation and greenhouse gas emissions.”<cite>Marcio Astrini, executive secretary, Observatorio do Clima</cite></blockquote>
+    <div class="note"><h4>Investigator’s note</h4>
+      <p>This article does not explain what causes climate change. It does not describe how forest loss affects the people who live in or near the Amazon. It mentions wildfires only once.</p>
+      <p><b>Research question:</b> How can forest loss change the weather or rainfall? Use another source.</p></div>
+
+    <h3>Solutions &amp; Shared Responsibility</h3>
+    <ul>
+      <li><b>A promise.</b> When Lula took office, he <strong class="vocab">pledged</strong> to end deforestation in the Amazon by 2030. A pledge is a serious promise. On social media he wrote: “Our goal is to achieve zero illegal deforestation by 2030.”</li>
+      <li><b>Watching and penalties.</b> Lula’s government tightened environmental monitoring and penalties for illegal logging.</li>
+      <li><b>Measuring.</b> A <strong class="vocab">satellite</strong> is a machine in space. The article says satellite data shows the forest loss figures.</li>
+      <li><b>Voters.</b> The rainforest’s future is a key issue in the run-off on 25 October. Lula faces Flavio Bolsonaro, the son of Jair Bolsonaro. The article says polls suggest a very close race.</li>
+      <li><b>Candidates’ plans.</b> The article says Flavio is expected to continue his father’s policies. It also says he has pledged to fight organised crime in the Amazon.</li>
+    </ul>
+    <div class="two">
+      <div class="yes"><h4>If people take action</h4><ul>
+        <li>Deforestation fell 41.8% in the Amazon in a year.</li>
+        <li>It was the biggest drop since records began in 1988.</li>
+        <li>Astrini calls it an “historic achievement” for Brazil.</li></ul></div>
+      <div class="no"><h4>If nothing is done</h4>
+        <p>The article does not say what will happen. It gives these clues:</p><ul>
+        <li>When protection resources were cut, forest clearing soared.</li>
+        <li>Under Bolsonaro, the Amazon lost nearly 60% more forest than before.</li></ul>
+        <p><b>Journal prediction:</b> What might happen to the Amazon if protection stops? Write your own <i>prediction</i> in your journal. Use two clues.</p></div>
+    </div>
+    <div class="note"><h4>Investigator’s note: what happened next?</h4>
+      <p>This article was published on 17 October 2026. The run-off was planned for 25 October. The article does not tell who won, or what happens next for the Amazon. Look for a newer source and find out.</p></div>
+  </div>
+</main>
+
+<aside>
+  <section class="box" aria-labelledby="nb"><h3 id="nb">By the Numbers</h3>
+    <div class="stat"><b>41.8%</b><span>fall in Amazon deforestation in the year to July 2026</span></div>
+    <div class="stat"><b>23.8%</b><span>fall in the Cerrado savanna region in the same year</span></div>
+    <div class="stat"><b>60%</b><span>of the Amazon rainforest is in Brazil</span></div>
+    <div class="stat"><b>2030</b><span>the year of Lula’s goal for zero illegal deforestation</span></div>
+  </section>
+  <section class="box" aria-labelledby="wb"><h3 id="wb">Reporter’s Word Bank</h3>
+    <dl>
+      <dt>deforestation</dt><dd>Cutting down or clearing forest.</dd>
+      <dt>species</dt><dd>One kind of living thing, such as one kind of animal.</dd>
+      <dt>carbon dioxide</dt><dd>A gas that warms the planet. Healthy rainforests absorb it.</dd>
+      <dt>pledge</dt><dd>A serious promise to do something.</dd>
+      <dt>satellite</dt><dd>A machine in space that collects information about Earth.</dd>
+    </dl>
+  </section>
+</aside>
+</div>
+
+<footer class="wrap">
+  <p>Adapted for classroom use from “Brazil sees record fall in Amazon deforestation as key election looms,” BBC News, by Ione Wells and Joel Guinto, 17 October 2026.</p>
+  <p>Photo credit given in the original article: Getty Images (lead photo of a toucan in the Amazon). The article gives no licence information. No images were copied into this page.</p>
+  <p><a href="https://www.bbc.com/news/articles/cqe8rzg6zl00o" target="_blank" rel="noopener">Read the original article at BBC News</a></p>
+</footer>
+
+<script>
+(function(){
+  try{document.getElementById('today').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});}catch(e){}
+  var body=document.getElementById('articleBody'),status=document.getElementById('status');
+  var root=document.documentElement,on=false,color='#fef08a',lastHL=0;
+  function say(t){status.textContent=t;}
+
+  // Font size
+  var fsBtns=[].slice.call(document.querySelectorAll('[data-size]'));
+  fsBtns.forEach(function(b){b.addEventListener('click',function(){
+    root.style.setProperty('--fs',b.dataset.size+'px');root.style.setProperty('--lh',b.dataset.lh);
+    fsBtns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+    say('Text size set to '+b.dataset.size+' pixels.');});});
+
+  // Marker
+  var mb=document.getElementById('markerBtn'),sws=[].slice.call(document.querySelectorAll('.sw'));
+  function setOn(v){on=v;mb.setAttribute('aria-pressed',v);mb.textContent='Marker: '+(v?'On':'Off');body.classList.toggle('marker-on',v);}
+  mb.addEventListener('click',function(){setOn(!on);say(on?'Marker is on. Select text in the article to highlight it.':'Marker is off.');});
+  sws.forEach(function(s){s.addEventListener('click',function(){
+    color=s.dataset.c;sws.forEach(function(x){x.setAttribute('aria-checked',x===s?'true':'false');});
+    setOn(true);say('Marker is on. Color: '+s.getAttribute('aria-label').replace(' highlighter','')+'.');});});
+
+  function highlight(){
+    if(!on)return;
+    var sel=window.getSelection();
+    if(!sel||!sel.rangeCount||sel.isCollapsed)return;
+    var r=sel.getRangeAt(0);
+    if(!body.contains(r.startContainer)||!body.contains(r.endContainer))return;
+    var root_=r.commonAncestorContainer,jobs=[],n;
+    if(root_.nodeType===3){jobs.push([root_,r.startOffset,r.endOffset]);}
+    else{
+      var tw=document.createTreeWalker(root_,NodeFilter.SHOW_TEXT,null);
+      while((n=tw.nextNode())){
+        if(!r.intersectsNode(n))continue;
+        var s=n===r.startContainer?r.startOffset:0,e=n===r.endContainer?r.endOffset:n.length;
+        if(s<e)jobs.push([n,s,e]);
+      }
+    }
+    var count=0;
+    jobs.forEach(function(j){
+      var node=j[0],s=j[1],e=j[2];
+      if(!node.data.slice(s,e).trim())return;
+      var par=node.parentNode;
+      if(par&&par.nodeName==='MARK'&&s===0&&e>=node.length){par.style.backgroundColor=color;count++;return;}
+      var t=node;
+      if(e<node.length)node.splitText(e);
+      if(s>0)t=node.splitText(s);
+      if(t.parentNode.nodeName==='MARK'){t.parentNode.style.backgroundColor=color;count++;return;}
+      var m=document.createElement('mark');m.style.backgroundColor=color;
+      t.parentNode.insertBefore(m,t);m.appendChild(t);count++;
+    });
+    sel.removeAllRanges();
+    if(count){lastHL=Date.now();say('Text highlighted. Click a highlight to remove it.');}
+  }
+  ['mouseup','touchend'].forEach(function(ev){body.addEventListener(ev,function(){setTimeout(highlight,10);});});
+
+  function unwrap(m){var p=m.parentNode;while(m.firstChild)p.insertBefore(m.firstChild,m);p.removeChild(m);p.normalize();}
+  body.addEventListener('click',function(e){
+    var m=e.target.closest&&e.target.closest('mark');
+    if(!m||!body.contains(m))return;
+    if(Date.now()-lastHL<400)return;
+    var sel=window.getSelection();if(sel&&!sel.isCollapsed)return;
+    unwrap(m);say('Highlight removed.');
+  });
+  document.getElementById('clearBtn').addEventListener('click',function(){
+    var ms=body.querySelectorAll('mark');
+    if(!ms.length){say('There are no highlights to clear.');return;}
+    [].slice.call(ms).forEach(unwrap);say('All highlights cleared.');
+  });
+})();
+</script>
+</body>
+</html>

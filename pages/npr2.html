@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NPR – A Desert Wakes Up: Chile's Atacama Bursts Into Bloom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,500&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#faf9f6;--ink:#1a1a1a;--muted:#5a5a56;--rule:#cfccc3;--fs:19px;--lh:1.7;
+--serif:"Playfair Display",Georgia,"Times New Roman",serif;--sans:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+*{box-sizing:border-box}
+html{scroll-padding-top:70px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans)}
+:focus-visible{outline:3px solid #1d4ed8;outline-offset:2px}
+
+/* toolbar */
+.toolbar{position:sticky;top:0;z-index:20;background:#1a1a1a;color:#faf9f6;display:flex;flex-wrap:wrap;gap:8px 22px;align-items:center;justify-content:center;padding:8px 14px;font-size:14px}
+.group{display:flex;align-items:center;gap:6px}
+.group>span{opacity:.75;margin-right:2px}
+.toolbar button{font:600 14px var(--sans);color:#faf9f6;background:transparent;border:1px solid #6b6b66;border-radius:4px;padding:5px 11px;cursor:pointer}
+.toolbar button:hover{background:#333}
+.toolbar button[aria-pressed="true"]{background:#faf9f6;color:#1a1a1a;border-color:#faf9f6}
+.swatch{width:26px;height:26px;padding:0!important;border-radius:50%!important;border:2px solid #faf9f6!important}
+.swatch[aria-checked="true"]{box-shadow:0 0 0 3px #1a1a1a,0 0 0 5px #faf9f6}
+.swatch.y{background:#fef08a!important}.swatch.g{background:#bbf7d0!important}.swatch.p{background:#fbcfe8!important}
+#status{font-size:13px;opacity:.85;min-width:150px}
+
+/* masthead */
+.page{max-width:1120px;margin:0 auto;padding:0 20px 40px}
+.masthead{text-align:center;padding:26px 0 14px;border-bottom:4px double var(--ink)}
+.masthead h1{font:800 clamp(30px,6vw,56px)/1.05 var(--serif);letter-spacing:.02em;margin:0}
+.masthead p{margin:8px 0 0;font:italic 400 16px var(--serif);color:var(--muted)}
+.dateline{display:flex;justify-content:space-between;border-bottom:1px solid var(--ink);padding:6px 0;font-size:13px;color:var(--muted)}
+
+/* headline */
+.head{padding:26px 0 0;max-width:820px}
+.kicker{font:700 14px var(--sans);color:#8a1c1c;margin:0 0 8px}
+.head h2{font:800 clamp(30px,5vw,50px)/1.1 var(--serif);margin:0 0 12px}
+.sub{font:italic 500 clamp(18px,2.4vw,23px)/1.4 var(--serif);color:#3a3a37;margin:0 0 18px}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));border-top:1px solid var(--ink);border-bottom:1px solid var(--rule);margin:6px 0 4px;font-size:15px}
+.meta div{padding:9px 14px 9px 0}
+.meta b{display:block;font:700 13px var(--sans);color:var(--muted)}
+
+/* layout */
+.cols{display:grid;grid-template-columns:70% 30%;margin-top:22px}
+.main{padding-right:32px;border-right:1px solid var(--rule)}
+.side{padding-left:26px}
+#article{font-size:var(--fs);line-height:var(--lh);transition:font-size .2s,line-height .2s}
+#article p{margin:0 0 1em;max-width:68ch}
+#article .lead{font-weight:600;font-size:1.12em}
+#article .lead::first-letter{font:800 3.4em/.85 var(--serif);float:left;padding:6px 8px 0 0}
+#article h3{font:800 clamp(22px,3vw,28px)/1.2 var(--serif);margin:1.6em 0 .5em;padding-top:.6em;border-top:1px solid var(--ink)}
+#article blockquote{margin:1.2em 0;padding:.2em 0 .2em 18px;border-left:4px solid var(--ink);font:italic 500 1.15em/1.45 var(--serif)}
+#article blockquote cite{display:block;font:600 .75em var(--sans);font-style:normal;color:var(--muted);margin-top:6px}
+.vocab{font-weight:700}
+mark{color:inherit;border-radius:2px;padding:0 1px;cursor:pointer}
+body.hl-on #article{cursor:text}
+body.hl-on #article ::selection{background:rgba(120,120,120,.35)}
+.compare{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--ink);margin:1em 0 1.4em;font-size:.92em;line-height:1.55}
+.compare div{padding:12px 16px}.compare div+div{border-left:1px solid var(--ink)}
+.compare h4{margin:0 0 6px;font:700 1.05em var(--serif)}
+.compare ul{margin:0;padding-left:1.1em}
+.note{background:#f1efe8;border-left:4px solid #8a1c1c;padding:10px 14px;font-size:.9em;line-height:1.55;margin:0 0 1em;max-width:68ch}
+
+/* sidebar boxes */
+.box{border:1px solid var(--ink);padding:16px 16px 6px;margin-bottom:26px;background:#fff}
+.box h3{font:800 20px var(--serif);margin:0 0 12px;padding-bottom:8px;border-bottom:3px double var(--ink)}
+.stat{padding:0 0 12px;margin-bottom:12px;border-bottom:1px solid var(--rule)}
+.stat:last-child{border:0;margin:0}
+.stat strong{display:block;font:800 34px/1.1 var(--serif)}
+.stat span{font-size:15px;line-height:1.4;color:#33332f}
+dl{margin:0}dt{font:700 17px var(--serif);margin-top:12px}dd{margin:2px 0 12px;font-size:15px;line-height:1.5;color:#33332f}
+.foot{border-top:4px double var(--ink);margin-top:30px;padding-top:14px;font-size:14px;color:var(--muted);line-height:1.5}
+.foot a{color:inherit}
+
+@media(max-width:820px){
+ .cols{grid-template-columns:1fr}
+ .main{padding-right:0;border-right:0}
+ .side{padding-left:0;margin-top:20px;border-top:1px solid var(--ink);padding-top:20px}
+ .compare{grid-template-columns:1fr}.compare div+div{border-left:0;border-top:1px solid var(--ink)}
+ .dateline span:last-child{display:none}
+}
+@media(prefers-reduced-motion:reduce){#article{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="toolbar" role="toolbar" aria-label="Reading tools">
+  <div class="group" role="group" aria-label="Text size"><span>Text size</span>
+    <button id="fs-s" aria-label="Smaller text">A-</button>
+    <button id="fs-m" aria-label="Normal text" aria-pressed="true">A</button>
+    <button id="fs-l" aria-label="Larger text">A+</button>
+  </div>
+  <div class="group" role="group" aria-label="Highlighter"><span>Highlighter</span>
+    <button id="hl-toggle" aria-pressed="false">Marker: Off</button>
+    <span id="swatches" role="radiogroup" aria-label="Marker color" style="display:flex;gap:8px;margin-left:4px">
+      <button class="swatch y" role="radio" aria-checked="true" aria-label="Yellow" data-c="#fef08a"></button>
+      <button class="swatch g" role="radio" aria-checked="false" aria-label="Mint green" data-c="#bbf7d0"></button>
+      <button class="swatch p" role="radio" aria-checked="false" aria-label="Soft pink" data-c="#fbcfe8"></button>
+    </span>
+    <button id="clear">Clear All Highlights</button>
+  </div>
+  <div id="status" aria-live="polite">Marker is off.</div>
+</div>
+
+<div class="page">
+  <header class="masthead">
+    <h1>NPR</h1>
+    <p>Grade 4 Environmental Investigation Desk</p>
+  </header>
+  <div class="dateline"><span>Monday, November 23, 2026</span><span>Investigating our planet, one question at a time</span></div>
+
+  <div class="head">
+    <p class="kicker">The Americas · Ecosystems</p>
+    <h2>A Desert Wakes Up: Chile’s Atacama Bursts Into Bloom</h2>
+    <p class="sub">Heavy rain has brought the biggest flower show in 30 years to one of the driest places on Earth.</p>
+    <div class="meta" aria-label="Source information">
+      <div><b>Where</b>Copiapó, Chile (Atacama Desert, northern Chile)</div>
+      <div><b>When</b>November 8, 2026</div>
+      <div><b>Author</b>John Bartlett</div>
+      <div><b>Source</b>NPR (Weekend Edition Sunday)</div>
+    </div>
+  </div>
+
+  <div class="cols">
+    <main class="main">
+      <article id="article">
+        <p class="lead">COPIAPÓ, Chile — A huge part of Chile’s Atacama Desert is now a patchwork of pink, yellow, lilac and purple flowers. The colors stretch across the rocky desert floor as far as the eye can see.</p>
+
+        <h3>Past &amp; Present: Comparing the Ecosystem</h3>
+        <p>The Atacama is the driest nonpolar desert on Earth. Some areas get almost no rain for years, or even decades. This winter, that changed. Heavy rain soaked deeper into the dry ground than it has in decades. Millions of seeds, bulbs and tubers sprouted above the surface. Many had been <span class="vocab">dormant</span> under the sand for decades.</p>
+        <p>Today, more than 200 kinds of plants are in flower. A month ago, the first plants made a pale-yellow haze. Then came a soft purple color as other bulbs sprouted. Now almost every dent and crack in the desert is streaked with color.</p>
+        <p>This bloom happens every few years, but this one is special. It is the largest and most colorful in 30 years — and maybe ever. Scientists found patches of desert in bloom where flowers had never been recorded before. This suggests that bulbs there have been dormant since before 1997, when scientists first studied the bloom in detail.</p>
+        <p>The bloom also creates a short-lived <span class="vocab">ecosystem</span>. Insects hatch. They attract lizards and bats, and larger animals such as the guanaco. One star flower is the crimson garra de león. It is <span class="vocab">endemic</span>: it grows along just a few miles of this coast, and nowhere else in the world.</p>
+        <blockquote>“This is a natural seed bank, a dormant archive that becomes a living one with the rains.”<cite>Moisés Grimberg, administrator of Llanos de Challe National Park</cite></blockquote>
+        <p>The blooms last only a few weeks. Then the flowers dry out and release their seeds. The seeds stay in the soil until the next rainfall brings the desert back to life.</p>
+
+        <h3>Human Impact: What Changed and Why?</h3>
+        <p class="note"><b>Investigator’s note:</b> This article does not say that people damaged the desert. It shows how the bloom changes life for people, and how people are responding.</p>
+        <p>Visitors are one big change. Llanos de Challe National Park is a 113,000-acre park on the dry coast. It normally gets about 10,000 visitors a year. During the bloom, 15,000 tourists have visited in just a few weeks. Roads across the desert are lined with tourists’ cars. Chile’s national tourism board expects around 300,000 overnight trips during the two months of bloom. Park staff must protect fragile plants and animals while managing all these visitors.</p>
+        <p>The bloom also matters for jobs and money. Miguel Vargas, the governor of the Atacama region, says the region’s economy is “heavily reliant on mining.” He sees the bloom as a chance to “diversify” it.</p>
+        <p>Scientists say the bloom is happening more often because of “changes in the climate.” The article does not explain what causes those changes. That is a good question to research in your journal.</p>
+
+        <h3>Climate Change &amp; Consequences</h3>
+        <p>This winter, heavy rain from the <span class="vocab">El Niño</span> super cycle caused flash floods in the Atacama Desert. Some areas got the heaviest rain since records began in the 1950s. Floods in July and August destroyed or damaged dozens of homes. Hundreds of people had to leave their homes.</p>
+        <p>The same rain brought the flowers. So the weather had two sides: danger for people and new life for the desert. Scientists say the bloom is becoming more frequent as changes in the climate bring unseasonal rains — rain that comes at an unusual time.</p>
+        <blockquote>“Sometimes people think it’s an empty, arid place, devoid of life, but actually our desert is just waiting for the right conditions.”<cite>Ana Sandoval, researcher, Chile’s Agricultural Research Institute (INIA)</cite></blockquote>
+
+        <h3>Solutions &amp; Shared Responsibility</h3>
+        <p>People are already acting. In June 2023, Chile created a national park to protect a 141,000-acre area where flowers appear every few years. Researchers from INIA are collecting seeds for Chile’s national <span class="vocab">seed bank</span>. They want to keep the plants’ genetic material and their special ways of surviving in extreme dryness. They also count the flowers in each square meter. This helps them learn how different plants respond to rain.</p>
+        <p>Local leaders want to go further. Governor Vargas has started the process of asking for UNESCO World Heritage recognition for the bloom. He hopes it will become Chile’s eighth World Heritage site within a couple of years. He says this “would put the Atacama region on the world stage.”</p>
+        <div class="compare">
+          <div><h4>If people take action</h4><ul>
+            <li>A national park protects a 141,000-acre area.</li>
+            <li>Seeds are saved in a seed bank.</li>
+            <li>Scientists keep learning how plants respond to rain.</li>
+            <li>UNESCO recognition could help diversify the economy.</li></ul></div>
+          <div><h4>If nothing is done</h4>
+            <p style="margin:0">The article does not describe this. Its clues: the seeds wait in the soil for the next rain, and the region’s economy now depends heavily on mining. What do you predict? Write your idea in your journal and call it a <i>prediction</i>.</p></div>
+        </div>
+        <p>This year, the bloom is expected to last until mid-November. As the flowers fade, scientists have two big questions. Was this the largest flowering event on record? And could a close look find a plant that nobody has named yet?</p>
+      </article>
+      <div class="foot">Adapted for classroom use from “A desert stirs to life: Chile’s Atacama erupts in its biggest floral display in decades,” by John Bartlett, NPR, November 8, 2026. Photos in the original: Tamara Merino for NPR.<br><a href="https://www.npr.org/2026/11/08/nx-s1-6023812/chile-desert-el-nino" target="_blank" rel="noopener">Read the original article at npr.org</a></div>
+    </main>
+
+    <aside class="side">
+      <section class="box" aria-labelledby="nums">
+        <h3 id="nums">By the Numbers</h3>
+        <div class="stat"><strong>200+</strong><span>kinds of plants in flower</span></div>
+        <div class="stat"><strong>15,000</strong><span>tourists in a few weeks. The park normally gets about 10,000 in a whole year.</span></div>
+        <div class="stat"><strong>300,000</strong><span>overnight trips expected during the two months of bloom</span></div>
+        <div class="stat"><strong>141,000</strong><span>acres in the national park created in June 2023</span></div>
+      </section>
+      <section class="box" aria-labelledby="wb">
+        <h3 id="wb">Reporter’s Word Bank</h3>
+        <dl>
+          <dt>dormant</dt><dd>Resting and not growing yet, like a seed waiting for rain.</dd>
+          <dt>ecosystem</dt><dd>Living things and the place where they live, all connected.</dd>
+          <dt>endemic</dt><dd>Living in only one place and nowhere else.</dd>
+          <dt>El Niño</dt><dd>The weather pattern named in this article as the cause of the heavy rain.</dd>
+          <dt>seed bank</dt><dd>A place that stores seeds safely so plants are not lost.</dd>
+        </dl>
+      </section>
+    </aside>
+  </div>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement, art=document.getElementById('article');
+  var status=document.getElementById('status');
+  var color='#fef08a', on=false, lastHL=0;
+
+  /* Font size */
+  var sizes={s:[16,1.65],m:[19,1.7],l:[22,1.75]};
+  ['s','m','l'].forEach(function(k){
+    document.getElementById('fs-'+k).addEventListener('click',function(){
+      root.style.setProperty('--fs',sizes[k][0]+'px');
+      root.style.setProperty('--lh',sizes[k][1]);
+      ['s','m','l'].forEach(function(j){document.getElementById('fs-'+j).setAttribute('aria-pressed',j===k)});
+    });
+  });
+
+  /* Highlighter mode */
+  var toggle=document.getElementById('hl-toggle');
+  function setMode(v){
+    on=v;
+    toggle.setAttribute('aria-pressed',on);
+    toggle.textContent='Marker: '+(on?'On':'Off');
+    document.body.classList.toggle('hl-on',on);
+    status.textContent=on?'Marker is on. Select text to highlight it.':'Marker is off.';
+  }
+  toggle.addEventListener('click',function(){setMode(!on)});
+  document.querySelectorAll('.swatch').forEach(function(b){
+    b.addEventListener('click',function(){
+      color=b.dataset.c;
+      document.querySelectorAll('.swatch').forEach(function(x){x.setAttribute('aria-checked',x===b)});
+      if(!on)setMode(true);
+    });
+  });
+
+  /* Wrap a range in <mark> without breaking tags: wrap each text node piece separately */
+  function highlight(range){
+    var c=range.commonAncestorContainer;
+    var host=c.nodeType===1?c:c.parentNode;
+    var w=document.createTreeWalker(host,NodeFilter.SHOW_TEXT), nodes=[], n;
+    while((n=w.nextNode())){
+      if(range.intersectsNode(n)&&art.contains(n)&&n.nodeValue.trim())nodes.push(n);
+    }
+    if(!nodes.length&&c.nodeType===3&&art.contains(c))nodes.push(c);
+    nodes.forEach(function(node){
+      var s=node===range.startContainer?range.startOffset:0;
+      var e=node===range.endContainer?range.endOffset:node.nodeValue.length;
+      if(s>=e)return;
+      var t=node;
+      if(e<node.nodeValue.length)node.splitText(e);
+      if(s>0)t=node.splitText(s);
+      var p=t.parentNode;
+      if(p.tagName==='MARK'){p.style.background=color;return;}
+      var m=document.createElement('mark');
+      m.style.background=color;
+      p.insertBefore(m,t);m.appendChild(t);
+    });
+  }
+  function onSelect(){
+    if(!on)return;
+    var sel=window.getSelection();
+    if(!sel||sel.isCollapsed||!sel.rangeCount)return;
+    var r=sel.getRangeAt(0);
+    if(!art.contains(r.commonAncestorContainer))return;
+    highlight(r);
+    sel.removeAllRanges();
+    lastHL=Date.now();
+  }
+  art.addEventListener('mouseup',function(){setTimeout(onSelect,0)});
+  art.addEventListener('touchend',function(){setTimeout(onSelect,350)});
+
+  /* Remove one highlight by clicking it */
+  function unwrap(m){
+    var p=m.parentNode;
+    while(m.firstChild)p.insertBefore(m.firstChild,m);
+    p.removeChild(m);p.normalize();
+  }
+  art.addEventListener('click',function(e){
+    var m=e.target.closest&&e.target.closest('mark');
+    if(!m||Date.now()-lastHL<400)return;
+    var sel=window.getSelection();
+    if(sel&&!sel.isCollapsed)return;
+    unwrap(m);
+    status.textContent='Highlight removed.';
+  });
+
+  document.getElementById('clear').addEventListener('click',function(){
+    var ms=art.querySelectorAll('mark');
+    for(var i=0;i<ms.length;i++)unwrap(ms[i]);
+    status.textContent=ms.length?'All highlights cleared.':'No highlights to clear.';
+  });
+})();
+</script>
+</body>
+</html>
