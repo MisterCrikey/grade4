@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Grade 4’s Unit Article Hub</title>
 <style>
-/* ===== COLORS AND FONTS: change these and the whole site changes ===== */
+/* ===== COLORS AND FONTS ===== */
 :root{
   --bg-1:#6fb1e8; --bg-2:#2f78c4;
   --blue-1:#9fd0ff; --blue-2:#3d8fe0; --blue-3:#1f6fc9; --blue-edge:#1b5aa5;
@@ -86,7 +86,7 @@ pre.ascii{margin:0;font:13px/1.15 ui-monospace,Menlo,Consolas,"Courier New",mono
 .grip{position:absolute;right:0;bottom:0;width:26px;height:26px;cursor:nwse-resize;touch-action:none;z-index:3;
   background:linear-gradient(135deg,transparent 50%,rgba(0,0,0,.28) 50% 56%,transparent 56% 66%,rgba(0,0,0,.28) 66% 72%,transparent 72%)}
 
-/* ===== PAGE VIEWER (articles, videos) ===== */
+/* ===== PAGE VIEWER ===== */
 .viewer .body{padding:0;gap:0}
 .tools{display:flex;gap:8px;align-items:center;padding:8px 10px;background:linear-gradient(#f7f9fb,#e3e9ef);border-bottom:1px solid #b5c0cc;flex:none}
 .tools .addr{flex:1;min-width:0;padding:6px 12px;border-radius:999px;border:1px solid #9aa5b1;background:#fff;font-size:13px;color:var(--text-soft);
@@ -164,7 +164,7 @@ iframe{flex:1;width:100%;min-height:0;border:0;background:#fff}
 @keyframes wig{0%,100%{transform:rotate(0)}25%{transform:rotate(-14deg)}75%{transform:rotate(14deg)}}
 .mbubble{position:absolute;transform:translate(-50%,-100%);z-index:25;background:#fff;border:2px solid #6d7b8a;border-radius:14px;padding:4px 12px;font-weight:600;white-space:nowrap}
 .mmenu{position:absolute;z-index:40;display:flex;flex-direction:column;gap:5px;padding:7px;min-width:170px;background:#fff;border:1px solid #6d7b8a;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,.35)}
-/* ===== DOCK (minimized windows) AND PHONE SIZES ===== */
+/* ===== DOCK ===== */
 #dock{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);display:flex;gap:10px;padding:10px 16px;max-width:94vw;overflow-x:auto;z-index:9998;
   border-radius:22px;border:1px solid rgba(255,255,255,.7);background:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.25));
   box-shadow:0 8px 24px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.9);backdrop-filter:blur(8px)}
@@ -186,14 +186,14 @@ iframe{flex:1;width:100%;min-height:0;border:0;background:#fff}
 
 <script>
 /* ==========================================================
-   1. YOUR CONTENT: edit only this part.
+   1. CONTENT:
 
    Up to 10 folders (extra ones are ignored). Each folder has files.
    A file is written like this:
 
        ["File name", "what to open", "🖼️ icon (optional)", "note (optional)"]
 
-   WHAT TO OPEN:
+   LIKE:
        online page:    "https://example.com/article"
        your own page:  "pages/lesson1.html"       (upload it next to index.html)
        a video:        "videos/mangroves.mkv"
@@ -207,24 +207,23 @@ iframe{flex:1;width:100%;min-height:0;border:0;background:#fff}
            ["Mangrove roots", "pictures/roots.jpg", "🖼️", "Roots protect the coast."]
        for a page or video it is the small hint at the bottom of the window.
 
-   Subtitles are read-only: students cannot change them. To change a
-   subtitle, edit the note here.
+   Subtitles are read-only: learners cannot change them. To change a
+   subtitle, edit the note.
 
    Everything opens inside the window. This site never opens new tabs
    or popups. Some websites refuse to be shown inside another page and
-   stay blank. For those, save a copy as your own file in pages/ and
-   link that instead.
+   stay blank. 
    ========================================================== */
 const SITE = {
   name: "Grade 4’s Unit Article Hub",
   welcome: "Open a folder, then open a file. You can drag windows, resize them from the corner, and place them side by side.",
-  practicePassword: "sharingtheplanet",   // 🔒 the password students type to open the practice games
-  // 🔊 animal sounds: put your mp3 files in a folder called "sounds" and write the path, like bee: "sounds/bee.mp3". leave it empty and the animal just says "sound coming soon"
+  practicePassword: "sharingtheplanet",   //  the password to open the practice games
+  // animal sounds: mp3 files in sounds/blabla
   mouse: {
-    dragRounds: 8,    // how many "Feed the..." puzzles in level 1 (12 is the most)
+    dragRounds: 8,    // how many "Feed the..." puzzles in level 1 (12 is the most so it doesnt get boring)
     sounds: {bee:"sounds/beebuzz.wav", lion:"sounds/liongrowl.wav", mouse:"sounds/mousesqueak.mp3", dog:"sounds/dogbark.wav", cat:"sounds/catmeow.mp3", giraffe:"sounds/giraffehum.mp3", monkey:"sounds/monkeychirp.mp3", chicken:"sounds/chicken.mp3", bunny:"sounds/bunnysqueal.mp3", panda:"sounds/panda.mp3", penguin:"sounds/penguinsquawk.mp3", horse:"sounds/horse.mp3"}
   },
-  // ⌨️ typing practice: only lowercase letters and spaces in the words and phrases please, no punctuation
+  //typing practice: only lowercase letters and spaces in the words and phrases please, no punctuation
   typing: {
     goalWpm: 12,          // words per minute that gets full speed points (lower = easier)
     levels: [
@@ -245,7 +244,7 @@ const SITE = {
       name: "Mangroves",
       icon: "🌿",
       files: [
-        ["Guayaquil, Ecuador", "pages/wetlands4.html", "📰"],
+        ["Guayaquil, Ecuador", "pages/wetlands5.html", "📰"],
         ["Guayaquil, Ecuador", "pages/mangrove.html", "🔎"],
         ["What is a Mangrove?", "pages/dmangrove.html", "❓"],
         ["Gramacho, Brazil", "videos/mangroves.mkv", "🎬"],
@@ -253,7 +252,7 @@ const SITE = {
         ["Picture 2", "images/mangrove2.webp", "🖼️", "Parque Estadual Restinga de Bertioga"],
         ["Picture 3", "images/mangrove3.jpg", "🖼️", "Mangroves are cut down and frequent trash dumping threatens the area's natural plant and wildlife."],
         ["Picture 4", "images/mangrove4.jpg", "🖼️", "Fisherman Hélio Ricardo in one of the few surviving mangrove areas in Complexo da Maré, Rio de Janeiro."]
-        // ["File name", "what to open", "🖼️", "note"]   <- template
+        // ["File name", "what to open", "🖼️", "note"]   <- template here dummy.
 
       ]
     },
@@ -289,7 +288,7 @@ const SITE = {
       name: "Deserts",
       icon: "🏜️",
       files: [
-        ["Atacama Desert, Chile", "pages/npr4.html", "📰"],
+        ["Atacama Desert, Chile", "pages/npr5.html", "📰"],
         ["Atacama Desert, Chile", "pages/atacama.html", "🔎"],
         ["A Super Dry Place", "pages/datacama.html", "❓"],
         ["Atacama Desert, Chile", "videos/desert.mkv", "🎬"],
@@ -303,7 +302,7 @@ const SITE = {
       name: "Glaciers",
       icon: "🧊",
       files: [
-        ["Patagonia, Argentina", "pages/bbcpata4.html", "📰"],
+        ["Patagonia, Argentina", "pages/bbcpata5.html", "📰"],
         ["Patagonia, Argentina", "pages/patagonia.html", "🔎"],
         ["Rivers of Ice: The Glaciers of Patagonia", "pages/dpatagonia.html", "❓"],
         ["Patagonia Glacier, Argentina", "videos/glacier.mkv", "🎬"],
@@ -317,7 +316,7 @@ const SITE = {
       name: "Beaches",
       icon: "🏖️",
       files: [
-        ["Bertioga, Brazil", "pages/wwf4.html", "📰"],
+        ["Bertioga, Brazil", "pages/wwf5.html", "📰"],
         ["Bertioga, Brazil", "pages/restingas.html", "🔎"],
         ["The Story of Bertioga", "pages/dbeach.html", "❓"],
         ["Rio de Janeiro, Brazil", "videos/beaches.mkv", "🎬"],
@@ -338,7 +337,7 @@ const CREDITS_TEXT = [
   ";3"
 ];
 
-/* ===== From here on is how the site works. You should not need to edit it. ===== */
+/* ===== From here on is how the site works. remember not to mess aroudn like u did in 12/11 ===== */
 /* ======== 2. SMALL HELPERS ======== */
 const $ = s => document.querySelector(s);
 function h(tag, attrs = {}, ...kids){
@@ -356,7 +355,7 @@ $("#site-name").textContent = SITE.name;
 const tick = () => $("#clock").textContent = new Date().toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"});
 tick(); setInterval(tick, 30000);
 
-/* ======== 3. WINDOWS (open, drag, resize, dock) ======== */
+/* ======== 3. WINDOWS ======== */
 let z = 10, nudge = 0;
 const open = {};
 const desk = $("#desk");
@@ -440,7 +439,7 @@ function openFolder(f, i){
 
 function openFile(file, i, k){
   const id = "f" + i + "-" + k, url = file[1];
-  if (open[id]) return makeWindow(id, file[0], [], {});      // already open: just bring it forward
+  if (open[id]) return makeWindow(id, file[0], [], {});      // just bring it forward
   if (!url) return openEmpty(file, id);
   if (isImage(url)) return openPicture(file, id);
   openPage(file, id);
@@ -453,7 +452,7 @@ function openEmpty(file, id){
     {viewer:true, w:520, h:440});
 }
 
-// A web page, your own html page, or a video, shown inside the window.
+// A web page, with internal local html page, or a video, shown inside the window.
 function openPage(file, id){
   const [name, url] = file, note = fileNote(file);
   makeWindow(id, name, [
@@ -469,7 +468,7 @@ function openPage(file, id){
 function openPicture(file, id){
   const [name, url] = file;
 
-  // Read-only subtitle: the text comes only from the note in the SITE list.
+  // Read-only subtitle.
   const caption = h("div", {class:"caption"}, fileNote(file));
 
   const img = h("img", {src:url, alt:name});
@@ -482,7 +481,7 @@ function openPicture(file, id){
     {viewer:true, w:Math.round(desk.clientWidth * 0.6), h:Math.round(desk.clientHeight * 0.92)});
 }
 
-/* ======== 5. MENU BAR BUTTONS (tile and close all) ======== */
+/* ======== 5. MENU BAR BUTTONS (Mac Os Style baby) ======== */
 function tile(){
   const wins = Object.values(open).filter(w => !w.hidden && w.dataset.kind === "viewer");
   if (!wins.length) return;
@@ -620,7 +619,7 @@ function openJournal(){
 /* ======== 6b. TYPING PRACTICE ======== */
 let typingHandler = null, typingSession = 0;
 
-// draws the picture of the hands on the keyboard (it is an svg so there is no image file to upload)
+// it is an svg so there is no image file to upload, it supposed to look like a hand
 function handsSVG(){
   const P = 46, K = 40, X0 = 30;
   const rowsK = [["q","w","e","r","t","y","u","i","o","p"], ["a","s","d","f","g","h","j","k","l",";"], ["z","x","c","v","b","n","m",",","."]];
@@ -664,7 +663,7 @@ function openTyping(){
   let plan = [], lv = 0, idx = 0, target = "", typed = "", startT = null;
   let elapsed = 0, attempts = 0, correct = 0, charsDone = 0;
 
-  /* ---- first screen: where do my hands go? waits 3 seconds, then asks if they are ready ---- */
+  /* ---- where do my hands go? waits 3 seconds, then asks if they are ready ---- */
   function showHands(){
     state = "hands"; onEnter = null;
     const pic = h("div", {class:"thands"}); pic.innerHTML = handsSVG();
@@ -851,7 +850,7 @@ function unlockGames(){            // the lock goes away and both games show up 
 }
 
 // every animal and the food it likes: [animal emoji, animal name, food emoji, food name]
-// want another animal? just add a line here (and its sound in SITE.mouse.sounds at the top)
+// want another animal? and yes I know bees dont actually eat honey.
 const PAIRS = [
   ["🐝","bee","🍯","honey"], ["🦁","lion","🍖","meat"], ["🐭","mouse","🧀","cheese"], ["🐶","dog","🦴","bone"], ["🐱","cat","🐟","fish"],
   ["🦒","giraffe","🍃","leaves"], ["🐒","monkey","🍌","banana"], ["🐔","chicken","🌽","corn"], ["🐰","bunny","🥕","carrot"],
@@ -1026,7 +1025,7 @@ function openMouse(){
     }
   }
 
-  /* ---- all done! they can play with the animals ---- */
+  /* ---- they can play with the animals ---- */
   function showDone(){
     locked = false; menuEl = null;
     const stage = h("div", {class:"mstage"});
@@ -1043,7 +1042,7 @@ function openMouse(){
   showStart();
 }
 
-/* ======== 7. THE DESKTOP (icons and the welcome window) ======== */
+/* ======== 7. THE DESKTOP  ======== */
 const imgOf = e => h("span", {class:"img", "aria-hidden":"true"}, e);
 const addIcon = (cls, emoji, label, onclick) => { const b = h("button", {class:cls, onclick, "aria-label":label}, imgOf(emoji), label); desk.append(b); return b; };
 
